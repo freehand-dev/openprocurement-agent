@@ -66,9 +66,7 @@ namespace openprocurement_agent.Services
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             // startup offset, subtract from now Datetime
-            //DateTime offset = DateTime.Now.Subtract(TimeSpan.FromHours(this._settings.Global.Subtract));
-
-            DateTime offset = DateTime.Parse("2020-05-14T08:40:29.704639+03:00");
+            DateTime offset = DateTime.Now.Subtract(TimeSpan.FromHours(this._settings.Global.Subtract));
 
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -84,7 +82,6 @@ namespace openprocurement_agent.Services
                         if (stoppingToken.IsCancellationRequested)
                             break;
 
-              
                         try
                         {
                             var x = await _client.GetTenderAsync(tenderBase.Id);

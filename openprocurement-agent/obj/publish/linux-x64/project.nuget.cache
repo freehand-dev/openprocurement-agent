@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "akC51eVOkyfb0Ryl/v79q/f8MXyyyFapjsY24U76J7qeoQCTynxcNXmbyd7z4YEcWJLlxL66Aqxxq5sxGGT+nA==",
+  "dgSpecHash": "NUBnFDIEskzzY6E59DeDvZnGlDDUkOVuuEhWe1Fe681bpWcF75EAeZnkAjYvB441Qq3CjxajM6+Hkvm3MtmZ+w==",
   "success": true,
   "projectFilePath": "C:\\Users\\freehand\\Desktop\\openprocurement-agent\\openprocurement-agent\\openprocurement-agent.csproj",
   "expectedPackageFiles": [
@@ -59,23 +59,26 @@
     "C:\\Users\\freehand\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.7.1\\system.diagnostics.diagnosticsource.4.7.1.nupkg.sha512",
     "C:\\Users\\freehand\\.nuget\\packages\\system.diagnostics.eventlog\\4.7.0\\system.diagnostics.eventlog.4.7.0.nupkg.sha512",
     "C:\\Users\\freehand\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
+    "C:\\Users\\freehand\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.7.1\\system.runtime.compilerservices.unsafe.4.7.1.nupkg.sha512",
     "C:\\Users\\freehand\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
     "C:\\Users\\freehand\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
     "C:\\Users\\freehand\\.nuget\\packages\\system.serviceprocess.servicecontroller\\4.7.0\\system.serviceprocess.servicecontroller.4.7.0.nupkg.sha512",
+    "C:\\Users\\freehand\\.nuget\\packages\\system.text.encodings.web\\4.7.1\\system.text.encodings.web.4.7.1.nupkg.sha512",
     "C:\\Users\\freehand\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512",
-    "C:\\Users\\freehand\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-x64\\3.1.7\\microsoft.netcore.app.runtime.linux-x64.3.1.7.nupkg.sha512",
-    "C:\\Users\\freehand\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-x64\\3.1.7\\microsoft.aspnetcore.app.runtime.linux-x64.3.1.7.nupkg.sha512",
-    "C:\\Users\\freehand\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\3.1.7\\microsoft.netcore.app.host.linux-x64.3.1.7.nupkg.sha512"
+    "C:\\Users\\freehand\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
+    "C:\\Users\\freehand\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-x64\\3.0.3\\microsoft.netcore.app.runtime.linux-x64.3.0.3.nupkg.sha512",
+    "C:\\Users\\freehand\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-x64\\3.0.3\\microsoft.aspnetcore.app.runtime.linux-x64.3.0.3.nupkg.sha512",
+    "C:\\Users\\freehand\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\3.0.3\\microsoft.netcore.app.host.linux-x64.3.0.3.nupkg.sha512"
   ],
   "logs": [
     {
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'Microsoft.Exchange.WebServices 2.2.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "message": "Package 'Microsoft.Exchange.WebServices 2.2.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.0'. This package may not be fully compatible with your project.",
       "libraryId": "Microsoft.Exchange.WebServices",
       "targetGraphs": [
-        ".NETCoreApp,Version=v3.1"
+        ".NETCoreApp,Version=v3.0"
       ]
     }
   ]
