@@ -46,11 +46,6 @@ namespace openprocurement.api.client
             var httpResponse = await this.GetAsync(
                 this.GetEndpoint().Append("tenders").Query(queryParams));
 
-            // debug
-            System.Diagnostics.Debug.WriteLine(
-                this.GetEndpoint().Append("tenders").Query(queryParams).ToString());
-
-
             if (!httpResponse.IsSuccessStatusCode)
                 throw new ErrorResponseException($"GetTenders response error, ReasonPhrase is {httpResponse.ReasonPhrase}", httpResponse);
 
@@ -73,10 +68,6 @@ namespace openprocurement.api.client
             var httpResponse = await this.GetAsync(
                 this.GetEndpoint().Append("tenders").Append(Id));
 
-            // debug
-            System.Diagnostics.Debug.WriteLine(
-                this.GetEndpoint().Append("tenders").Append(Id).ToString());
-
             if (!httpResponse.IsSuccessStatusCode)
                 throw new ErrorResponseException($"GetTender with id { Id } response error, ReasonPhrase is {httpResponse.ReasonPhrase}", httpResponse);
 
@@ -97,10 +88,6 @@ namespace openprocurement.api.client
         public async Task<DataResponse<List<TenderDocument>>> GetTenderDocumentsAsync(string Id)
         {
             var httpResponse = await this.GetAsync(
-                this.GetEndpoint().Append("tenders").Append(Id).Append("documents"));
-
-            // debug
-            System.Diagnostics.Debug.WriteLine(
                 this.GetEndpoint().Append("tenders").Append(Id).Append("documents"));
 
             if (!httpResponse.IsSuccessStatusCode)
@@ -125,10 +112,6 @@ namespace openprocurement.api.client
             var httpResponse = await this.GetAsync(
                 this.GetEndpoint().Append("tenders").Append(Id).Append("contracts"));
 
-            // debug
-            System.Diagnostics.Debug.WriteLine(
-                this.GetEndpoint().Append("tenders").Append(Id).Append("contracts"));
-
             if (!httpResponse.IsSuccessStatusCode)
                 throw new ErrorResponseException($"GetTenderContracts with id { Id } response, ReasonPhrase is {httpResponse.ReasonPhrase}", httpResponse);
 
@@ -140,10 +123,6 @@ namespace openprocurement.api.client
         public async Task<DataResponse<List<TenderAward>>> GetTenderAwardsAsync(string Id)
         {
             var httpResponse = await this.GetAsync(
-                this.GetEndpoint().Append("tenders").Append(Id).Append("awards"));
-
-            // debug
-            System.Diagnostics.Debug.WriteLine(
                 this.GetEndpoint().Append("tenders").Append(Id).Append("awards"));
 
             if (!httpResponse.IsSuccessStatusCode)

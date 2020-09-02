@@ -1,9 +1,0 @@
-C:\Users\freehand\Desktop\openprocurement-agent\openprocurement.api.client\bin\Release\netstandard2.1\openprocurement.api.client.deps.json
-C:\Users\freehand\Desktop\openprocurement-agent\openprocurement.api.client\bin\Release\netstandard2.1\openprocurement.api.client.dll
-C:\Users\freehand\Desktop\openprocurement-agent\openprocurement.api.client\bin\Release\netstandard2.1\openprocurement.api.client.pdb
-C:\Users\freehand\Desktop\openprocurement-agent\openprocurement.api.client\obj\Release\netstandard2.1\openprocurement.api.client.csprojAssemblyReference.cache
-C:\Users\freehand\Desktop\openprocurement-agent\openprocurement.api.client\obj\Release\netstandard2.1\openprocurement.api.client.AssemblyInfoInputs.cache
-C:\Users\freehand\Desktop\openprocurement-agent\openprocurement.api.client\obj\Release\netstandard2.1\openprocurement.api.client.AssemblyInfo.cs
-C:\Users\freehand\Desktop\openprocurement-agent\openprocurement.api.client\obj\Release\netstandard2.1\openprocurement.api.client.csproj.CoreCompileInputs.cache
-C:\Users\freehand\Desktop\openprocurement-agent\openprocurement.api.client\obj\Release\netstandard2.1\openprocurement.api.client.dll
-C:\Users\freehand\Desktop\openprocurement-agent\openprocurement.api.client\obj\Release\netstandard2.1\openprocurement.api.client.pdb

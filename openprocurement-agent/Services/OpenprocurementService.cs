@@ -86,7 +86,7 @@ namespace openprocurement_agent.Services
                         {
                             var x = await _client.GetTenderAsync(tenderBase.Id);
                             Tender tender = x.Data;
-                            //_logger.LogDebug($"[{ tender.Id }][{tender.DateModified:o}][{ tender.Status }] { tender.Title }");
+                            _logger.LogDebug($"[{ tender.Id }][{tender.DateModified:o}][{ tender.Status }] { tender.Title }");
 
                             await _pipeline.SendAsync(tender);
                         }
