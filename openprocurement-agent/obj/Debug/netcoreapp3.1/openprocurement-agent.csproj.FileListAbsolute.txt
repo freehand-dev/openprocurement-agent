@@ -1,0 +1,5 @@
+C:\Users\mail\source\repos\openprocurement-agent\openprocurement-agent\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\mail\source\repos\openprocurement-agent\openprocurement-agent\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\mail\source\repos\openprocurement-agent\openprocurement-agent\obj\Debug\netcoreapp3.1\openprocurement-agent.csprojAssemblyReference.cache
+C:\Users\mail\source\repos\openprocurement-agent\openprocurement-agent\obj\Debug\netcoreapp3.1\openprocurement-agent.AssemblyInfoInputs.cache
+C:\Users\mail\source\repos\openprocurement-agent\openprocurement-agent\obj\Debug\netcoreapp3.1\openprocurement-agent.AssemblyInfo.cs
