@@ -124,7 +124,7 @@ namespace openprocurement.api.client.Models
 
             html.Append("		<center style=\"text-align:center\">");
             html.Append("			<h2>ОГОЛОШЕННЯ</h2>");
-            html.Append($"			<div>про проведення спрощеної/допорогової закупівлі<br><a href=\"https://prozorro.gov.ua/tender/{this.TenderID}\">{this.TenderID}</a></div>");
+            html.Append($"			<div><br><a href=\"https://zakupivli24.pb.ua/prozorro/tender/{this.TenderID}\">{this.TenderID}</a></div>");
             html.Append("		</center>");
             html.Append("		<br><br>");
             html.Append("		<table cellpadding=\"5\" cellspacing=\"0\" border=\"0\" width=\"100%\">");
@@ -136,7 +136,7 @@ namespace openprocurement.api.client.Models
             html.Append("		<tr>");
             html.Append("			<td>2.</td>");
             html.Append("			<td>Код згідно з ЄДРПОУ замовника:</td>");
-            html.Append($"			<td><strong>{this.ProcuringEntity?.Identifier?.Id}</strong></td>");
+            html.Append($"			<td><strong><a href=\"https://zakupivli24.pb.ua/prozorro/company/{this.ProcuringEntity?.Identifier?.Scheme}/{this.ProcuringEntity?.Identifier?.Id}\">{this.ProcuringEntity?.Identifier?.Id}</a></strong></td>");
             html.Append("		</tr>");
             html.Append("		<tr>");
             html.Append("			<td>3.</td>");
