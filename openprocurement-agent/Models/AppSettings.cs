@@ -33,7 +33,12 @@ namespace openprocurement_agent.Models
 
         public string Password { get; set; }
 
-        public Uri ServerUrl { get; set; }
+        public string Server { get; set; }
+
+        public int Port { get; set; } = 25;
+
+        public bool EnableSsl { get; set; } = false;
+
         public List<string> MailTo { get; set; }
 
         static String SecureStringToString(SecureString value)

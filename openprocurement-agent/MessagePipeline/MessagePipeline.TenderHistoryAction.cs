@@ -26,7 +26,7 @@ namespace openprocurement_agent.MessagePipeline
                 }
                 catch (Exception e)
                 {
-                    logger.LogError($"TenderHistoryFilter - { e.Message }");
+                    logger.LogError($"TenderHistoryAction - { e.Message }");
                 }
             });
         }
