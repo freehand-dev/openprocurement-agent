@@ -12,6 +12,15 @@ namespace openprocurement_agent.Models
         public GlobalSettings Global { get; set; }
 
         public ActionSettings Action { get; set; }
+
+        public TransformSettings Transform { get; set; }
+
+        public AppSettings()
+        {
+            this.Global = new GlobalSettings();
+            this.Action = new ActionSettings();
+            this.Transform = new TransformSettings();
+        }
     }
 
 
@@ -21,9 +30,32 @@ namespace openprocurement_agent.Models
     }
 
 
+    public class TransformSettings
+    {
+        public TransformSettings_Status Status { get; set; }
+
+        public TransformSettings()
+        {
+            this.Status = new TransformSettings_Status();
+        }
+
+    }
+
+
+    public class TransformSettings_Status
+    {
+        public List<string> Allow { get; set; } = new List<string>();
+
+    }
+
     public class ActionSettings
     {
         public ActionSetting_SendMail SendMail { get; set; }
+
+        public ActionSettings()
+        {
+            this.SendMail = new ActionSetting_SendMail();
+        }
     }
 
 

@@ -39,7 +39,7 @@ namespace openprocurement_agent.MessagePipeline
             var broadcastBlock = new BroadcastBlock<Tender>(msg => msg);
 
             // StatusFilter
-            var statusFilter = StatusFilter.Create(logger);
+            var statusFilter = StatusFilter.Create(settings.Transform.Status, logger);
 
             // TenderHistoryFilter
             var tenderHistoryFilter = TenderHistoryFilter.Create(tenderHistoryDbContex, _dbLock, logger);
