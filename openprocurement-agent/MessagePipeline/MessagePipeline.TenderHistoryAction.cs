@@ -13,6 +13,7 @@ namespace openprocurement_agent.MessagePipeline
     public class TenderHistoryAction
     {
         static public ActionBlock<Tender> Create(
+            Models.ActionSetting_TendersHistory settings,
             Models.TenderHistoryDbContex databaseContex,
             Object dbLock,
             ILogger<OpenprocurementService> logger)
@@ -21,6 +22,9 @@ namespace openprocurement_agent.MessagePipeline
             {
                 try
                 {
+                    if (!settings.Enabled)
+                        return;
+
                     databaseContex.Add(new TenderHistory { TenderId = message.TenderID });
                     databaseContex.SaveChanges();
                 }

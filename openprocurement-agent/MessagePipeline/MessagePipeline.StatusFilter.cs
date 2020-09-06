@@ -22,6 +22,9 @@ namespace openprocurement_agent.MessagePipeline
             {
                 try
                 {
+                    if (!settings.Enabled)
+                        return message;
+
                     var allow = settings.Allow.Any(f => f.ToLower() == message.Status.ToLower());
                     return allow ? message : null;
                 }

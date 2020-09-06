@@ -1,5 +1,6 @@
 using openprocurement.api.client;
 using openprocurement.api.client.Exceptions;
+using openprocurement.api.client.Models;
 using System;
 using System.Diagnostics;
 using Xunit;
@@ -36,8 +37,8 @@ namespace XUnitTestProject
         public async void TestTender()
         {
             var x = await client.GetTenderAsync("b6c1b8c0c2074bc8b9380cff823ee8e3");
-            Debug.WriteLine(x.Data?.Title);
-            
+            // Debug.WriteLine(
+            //    JsonEnumConverter<Tender.StatusEnum>.GetEnumMemberValue(x.Data?.Status));
         }
 
         [Fact]

@@ -34,7 +34,7 @@ namespace openprocurement_agent.MessagePipeline
             var exchangeAction = ExchangeAction.Create(settings.Action.SendMail, logger);
 
             // TenderHistoryAction
-            var tenderHistoryAction = TenderHistoryAction.Create(tenderHistoryDbContex, _dbLock, logger);
+            var tenderHistoryAction = TenderHistoryAction.Create(settings.Action.TendersHistory, tenderHistoryDbContex, _dbLock, logger);
 
             var broadcastBlock = new BroadcastBlock<Tender>(msg => msg);
 
@@ -42,10 +42,10 @@ namespace openprocurement_agent.MessagePipeline
             var statusFilter = StatusFilter.Create(settings.Transform.Status, logger);
 
             // TenderHistoryFilter
-            var tenderHistoryFilter = TenderHistoryFilter.Create(tenderHistoryDbContex, _dbLock, logger);
+            var tenderHistoryFilter = TenderHistoryFilter.Create(settings.Transform.TendersHistory, tenderHistoryDbContex, _dbLock, logger);
 
             // IdentifierFilter
-            var identifierFilter = IdentifierFilter.Create(procuringEntityDbContex, _dbLock, logger);
+            var identifierFilter = IdentifierFilter.Create(settings.Transform.Identifier, procuringEntityDbContex, _dbLock, logger);
 
             // BufferBlock - StatusFilter
             BufferBlock.LinkTo(statusFilter, linkOptions, message => message != null);

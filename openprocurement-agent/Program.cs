@@ -69,14 +69,22 @@ namespace openprocurement_agent
                     //get WorkingDirectory from config
                     string workingDirectory = hostContext.Configuration.GetValue<string>("WorkingDirectory");
 
-                    // Add DatabaseContex.
-                    services.AddDbContext<Models.TenderHistoryDbContex>(options =>
-                            options.UseSqlite($"Data Source=\"{System.IO.Path.Combine(workingDirectory, "TenderHistory.db")}\""));
+                    //
+                    var settings = hostContext.Configuration.Get<Models.AppSettings>();
 
                     // Add DatabaseContex.
-                    services.AddDbContext<Models.ProcuringEntityDbContex>(options =>
-                            options.UseSqlite($"Data Source=\"{System.IO.Path.Combine(workingDirectory, "ProcuringEntity.db")}\""));
+                    if (settings.Transform.Identifier.Enabled)
+                    {
+                        services.AddDbContext<Models.TenderHistoryDbContex>(options =>
+                                options.UseSqlite($"Data Source=\"{System.IO.Path.Combine(workingDirectory, "TenderHistory.db")}\""));
+                    }
 
+                    // Add DatabaseContex.
+                    if (settings.Transform.TendersHistory.Enabled || settings.Action.TendersHistory.Enabled)
+                    {
+                        services.AddDbContext<Models.ProcuringEntityDbContex>(options =>
+                                options.UseSqlite($"Data Source=\"{System.IO.Path.Combine(workingDirectory, "ProcuringEntity.db")}\""));
+                    }
                     // Configuration
                     services.Configure<Models.AppSettings>(hostContext.Configuration);
 

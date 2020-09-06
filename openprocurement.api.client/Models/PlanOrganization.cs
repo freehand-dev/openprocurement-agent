@@ -5,21 +5,18 @@ using System.Text.Json.Serialization;
 
 namespace openprocurement.api.client.Models
 {
-    public class ContractSupplier
+    public class PlanOrganization
     {
-        [JsonPropertyName("scale")]
-        public string Scale { get; set; }
-
-        [JsonPropertyName("contactPoint")]
-        public ContactPoint ContactPoint { get; set; }
-
+        /// <summary>
+        /// OpenContracting Description: The primary identifier for this organization.
+        /// </summary>
         [JsonPropertyName("identifier")]
         public Identifier Identifier { get; set; }
 
+        /// <summary>
+        /// OpenContracting Description: The common name of the organization.
+        /// </summary>
         [JsonPropertyName("name")]
         public string Name { get; set; }
-
-        [JsonPropertyName("address")]
-        public Address Address { get; set; }
     }
 }

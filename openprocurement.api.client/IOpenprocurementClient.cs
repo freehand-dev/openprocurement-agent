@@ -21,9 +21,9 @@ namespace openprocurement.api.client
 
         public Task<DataResponse<Tender>> GetTenderAsync(string Id);
 
-        public Task<DataResponse<List<TenderDocument>>> GetTenderDocumentsAsync(string Id);
+        public Task<DataResponse<List<Document>>> GetTenderDocumentsAsync(string Id);
 
-        public Task<DataResponse<List<TenderContract>>> GetTenderContractsAsync(string Id);
+        public Task<DataResponse<List<Contract>>> GetTenderContractsAsync(string Id);
 
         /// <summary>
         /// Reading the tender documents list
@@ -33,6 +33,6 @@ namespace openprocurement.api.client
         /// <param name="offset"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public Task<DataResponse<List<TenderAward>>> GetTenderAwardsAsync(string Id);
+        public Task<DataResponse<List<Award>>> GetTenderAwardsAsync(string Id);
     }
 }

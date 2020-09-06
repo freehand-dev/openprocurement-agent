@@ -33,17 +33,31 @@ namespace openprocurement_agent.Models
     public class TransformSettings
     {
         public TransformSettings_Status Status { get; set; }
+        public TransformSettings_Identifier Identifier { get; set; }
+        public TransformSettings_TendersHistory TendersHistory { get; set; }
+
 
         public TransformSettings()
         {
             this.Status = new TransformSettings_Status();
+            this.Identifier = new TransformSettings_Identifier();
+            this.TendersHistory = new TransformSettings_TendersHistory();
         }
-
     }
 
+    public class TransformSettings_Identifier
+    {
+        public bool Enabled { get; set; } = false;
+    }
+
+    public class TransformSettings_TendersHistory
+    {
+        public bool Enabled { get; set; } = false;
+    }
 
     public class TransformSettings_Status
     {
+        public bool Enabled { get; set; } = false;
         public List<string> Allow { get; set; } = new List<string>();
 
     }
@@ -51,26 +65,28 @@ namespace openprocurement_agent.Models
     public class ActionSettings
     {
         public ActionSetting_SendMail SendMail { get; set; }
+        public ActionSetting_TendersHistory TendersHistory { get; set; }
 
         public ActionSettings()
         {
             this.SendMail = new ActionSetting_SendMail();
+            this.TendersHistory = new ActionSetting_TendersHistory();
         }
     }
 
+    public class ActionSetting_TendersHistory
+    {
+        public bool Enabled { get; set; } = false;
+    }
 
     public class ActionSetting_SendMail
     {
+        public bool Enabled { get; set; } = false;
         public string Username { get; set; }
-
         public string Password { get; set; }
-
         public string Server { get; set; }
-
         public int Port { get; set; } = 25;
-
         public bool EnableSsl { get; set; } = false;
-
         public List<string> MailTo { get; set; }
 
         static String SecureStringToString(SecureString value)

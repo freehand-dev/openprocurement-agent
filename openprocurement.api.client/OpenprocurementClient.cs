@@ -6,15 +6,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Web;
 
 namespace openprocurement.api.client
 {
+
+    /// <summary>
+    /// http://api-docs.openprocurement.org/en
+    /// </summary>
     public class OpenprocurementClient : HttpClient, IOpenprocurementClient
     {
         private readonly string _api_version = "2.5";
         private readonly string _api_uri = "https://public.api.openprocurement.org/api/{0}/";
+
+        JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
+        {
+            Converters = {
+                new JsonStringEnumConverter( JsonNamingPolicy.CamelCase)
+            },
+            IgnoreNullValues = true,
+            PropertyNameCaseInsensitive = true
+        };
 
         private Uri GetEndpoint()
         {
@@ -50,7 +65,7 @@ namespace openprocurement.api.client
                 throw new ErrorResponseException($"GetTenders response error, ReasonPhrase is {httpResponse.ReasonPhrase}", httpResponse);
 
             var contentStream = await httpResponse.Content.ReadAsStreamAsync();
-            return await System.Text.Json.JsonSerializer.DeserializeAsync<Models.TendersResponse>(contentStream, new System.Text.Json.JsonSerializerOptions { IgnoreNullValues = true, PropertyNameCaseInsensitive = true });
+            return await System.Text.Json.JsonSerializer.DeserializeAsync<Models.TendersResponse>(contentStream, _jsonSerializerOptions);
 
         }
 
@@ -73,7 +88,7 @@ namespace openprocurement.api.client
 
 
             var contentStream = await httpResponse.Content.ReadAsStreamAsync();
-            return await System.Text.Json.JsonSerializer.DeserializeAsync<DataResponse<Tender>>(contentStream, new System.Text.Json.JsonSerializerOptions { IgnoreNullValues = true, PropertyNameCaseInsensitive = true });
+            return await System.Text.Json.JsonSerializer.DeserializeAsync<DataResponse<Tender>>(contentStream, _jsonSerializerOptions);
 
         }
 
@@ -85,7 +100,7 @@ namespace openprocurement.api.client
         /// <param name="offset"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public async Task<DataResponse<List<TenderDocument>>> GetTenderDocumentsAsync(string Id)
+        public async Task<DataResponse<List<Document>>> GetTenderDocumentsAsync(string Id)
         {
             var httpResponse = await this.GetAsync(
                 this.GetEndpoint().Append("tenders").Append(Id).Append("documents"));
@@ -94,7 +109,7 @@ namespace openprocurement.api.client
                 throw new ErrorResponseException($"GetTenderDocuments with id { Id } response, ReasonPhrase is {httpResponse.ReasonPhrase}", httpResponse);
 
             var contentStream = await httpResponse.Content.ReadAsStreamAsync();
-            return await System.Text.Json.JsonSerializer.DeserializeAsync<DataResponse<List<TenderDocument>>>(contentStream, new System.Text.Json.JsonSerializerOptions { IgnoreNullValues = true, PropertyNameCaseInsensitive = true });
+            return await System.Text.Json.JsonSerializer.DeserializeAsync<DataResponse<List<Document>>>(contentStream, _jsonSerializerOptions);
 
         }
 
@@ -107,7 +122,7 @@ namespace openprocurement.api.client
         /// <param name="offset"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public async Task<DataResponse<List<TenderContract>>> GetTenderContractsAsync(string Id)
+        public async Task<DataResponse<List<Contract>>> GetTenderContractsAsync(string Id)
         {
             var httpResponse = await this.GetAsync(
                 this.GetEndpoint().Append("tenders").Append(Id).Append("contracts"));
@@ -116,11 +131,11 @@ namespace openprocurement.api.client
                 throw new ErrorResponseException($"GetTenderContracts with id { Id } response, ReasonPhrase is {httpResponse.ReasonPhrase}", httpResponse);
 
             var contentStream = await httpResponse.Content.ReadAsStreamAsync();
-            return await System.Text.Json.JsonSerializer.DeserializeAsync<DataResponse<List<TenderContract>>>(contentStream, new System.Text.Json.JsonSerializerOptions { IgnoreNullValues = true, PropertyNameCaseInsensitive = true });
+            return await System.Text.Json.JsonSerializer.DeserializeAsync<DataResponse<List<Contract>>>(contentStream, _jsonSerializerOptions);
 
         }
 
-        public async Task<DataResponse<List<TenderAward>>> GetTenderAwardsAsync(string Id)
+        public async Task<DataResponse<List<Award>>> GetTenderAwardsAsync(string Id)
         {
             var httpResponse = await this.GetAsync(
                 this.GetEndpoint().Append("tenders").Append(Id).Append("awards"));
@@ -129,7 +144,7 @@ namespace openprocurement.api.client
                 throw new ErrorResponseException($"GetTenderAwardsAsync with id { Id } response, ReasonPhrase is {httpResponse.ReasonPhrase}", httpResponse);
 
             var contentStream = await httpResponse.Content.ReadAsStreamAsync();
-            return await System.Text.Json.JsonSerializer.DeserializeAsync<DataResponse<List<TenderAward>>>(contentStream, new System.Text.Json.JsonSerializerOptions { IgnoreNullValues = true, PropertyNameCaseInsensitive = true });
+            return await System.Text.Json.JsonSerializer.DeserializeAsync<DataResponse<List<Award>>>(contentStream, _jsonSerializerOptions);
 
         }
 

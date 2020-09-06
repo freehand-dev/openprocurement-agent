@@ -22,6 +22,9 @@ namespace openprocurement_agent.MessagePipeline
             {
                 try
                 {
+                    if (!settings.Enabled)
+                        return;
+
                     // send mail
                     ExchangeAction.SendMail(settings.Username, settings.Password, settings.MailTo, settings.Server, settings.Port, settings.EnableSsl, message);
 
@@ -42,7 +45,7 @@ namespace openprocurement_agent.MessagePipeline
             message.From = new MailAddress("openprocurement@engineer-service.tv", "Tenders Agent"); 
             foreach (string mailTo in MailsTo)
                 message.To.Add(mailTo);
-            message.Subject = $"{ tender.Title } - ({ tender.ProcuringEntity?.Name })";
+            message.Subject = $"{ tender.Title } - ({ tender.ProcuringEntity?.Name })".Replace('\r', ' ').Replace('\n', ' ');
             message.IsBodyHtml = true;
             message.Body = tender.ToHTML().ToString();
 

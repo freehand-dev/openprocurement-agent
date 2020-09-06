@@ -38,10 +38,11 @@ namespace openprocurement_agent.Services
             this._serviceProvider = serviceProvider;
             this._settings = settings.Value;
 
-            this._tenderHistoryDbContex = (Models.TenderHistoryDbContex)_serviceProvider.CreateScope().ServiceProvider.GetRequiredService(typeof(Models.TenderHistoryDbContex));
+            if (this._settings.Transform.Identifier.Enabled)
+                this._tenderHistoryDbContex = (Models.TenderHistoryDbContex)_serviceProvider.CreateScope().ServiceProvider.GetRequiredService(typeof(Models.TenderHistoryDbContex));
 
-            this._procuringEntityDbContex = (Models.ProcuringEntityDbContex)_serviceProvider.CreateScope().ServiceProvider.GetRequiredService(typeof(Models.ProcuringEntityDbContex));
-
+            if (this._settings.Transform.TendersHistory.Enabled || this._settings.Action.TendersHistory.Enabled)
+                this._procuringEntityDbContex = (Models.ProcuringEntityDbContex)_serviceProvider.CreateScope().ServiceProvider.GetRequiredService(typeof(Models.ProcuringEntityDbContex));
 
             // build message pipeline
             _pipeline = new MessagePipeline.MessagePipeline(this._settings, this._tenderHistoryDbContex, this._procuringEntityDbContex, this._logger);

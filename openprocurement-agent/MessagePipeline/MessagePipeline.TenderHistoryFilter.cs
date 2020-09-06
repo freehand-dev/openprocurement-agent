@@ -12,6 +12,7 @@ namespace openprocurement_agent.MessagePipeline
     public class TenderHistoryFilter
     {
         static public TransformBlock<Tender, Tender>Create(
+            Models.TransformSettings_TendersHistory settings,
             Models.TenderHistoryDbContex databaseContex,
             Object dbLock,
             ILogger<OpenprocurementService> logger)
@@ -20,6 +21,9 @@ namespace openprocurement_agent.MessagePipeline
             {
                 try
                 {
+                    if (!settings.Enabled)
+                        return message;
+
                     bool findInHistory = databaseContex.TenderHistory.Any(b => b.TenderId == message.TenderID);
                     return (findInHistory ? null : message);
                 } 

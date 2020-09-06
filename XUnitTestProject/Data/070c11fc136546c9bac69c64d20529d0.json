@@ -1,0 +1,199 @@
+﻿{
+  "data": {
+    "procurementMethod": "open",
+    "mainProcurementCategory": "goods",
+    "complaintPeriod": {
+      "startDate": "2020-08-28T14:33:43.443687+03:00",
+      "endDate": "2020-09-10T00:00:00+03:00"
+    },
+    "enquiryPeriod": {
+      "startDate": "2020-08-28T14:33:43.443687+03:00",
+      "clarificationsUntil": "2020-09-09T00:00:00+03:00",
+      "endDate": "2020-09-04T00:00:00+03:00",
+      "invalidationDate": "2020-08-28T14:40:27.974629+03:00"
+    },
+    "submissionMethod": "electronicAuction",
+    "next_check": "2020-09-14T00:00:00+03:00",
+    "procuringEntity": {
+      "contactPoint": {
+        "telephone": "380612239104,380680563993",
+        "name": "Ірина Кузнецова Валеріївна",
+        "email": "peo@ztv.zp.ua"
+      },
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "24905384",
+        "legalName": "Комунальне підприємство \"Муніципальна телевізійна мережа\""
+      },
+      "name": "Комунальне підприємство \"Муніципальна телевізійна мережа\"",
+      "kind": "general",
+      "address": {
+        "postalCode": "69095",
+        "countryName": "Україна",
+        "streetAddress": "вул. Приходська , 60",
+        "region": "Запорізька область",
+        "locality": "Запоріжжя"
+      }
+    },
+    "owner": "e-tender.biz",
+    "id": "070c11fc136546c9bac69c64d20529d0",
+    "description": "Мова (мови), якою (якими) повинні готуватися тендерні пропозиції - українська мова.",
+    "documents": [
+      {
+        "hash": "md5:3dd57c0218964e5c193398fa126c43e0",
+        "author": "tender_owner",
+        "format": "text/plain",
+        "url": "https://public.docs.openprocurement.org/get/40934ae6f01d425e95c1425ba9a5aef8?KeyID=52462340&Signature=ORN33UVu7XpB7OAeozLLTis4ym8DowZqY%252B0gzFV9qX2S0nIEfHfyGZ1tc1OHC7T7v76hbZAAgnDTV%2FqweN1kCg%253D%253D",
+        "title": "Додаток 4 Договір.docx",
+        "documentOf": "tender",
+        "datePublished": "2020-08-28T14:36:50.781821+03:00",
+        "documentType": "contractProforma",
+        "dateModified": "2020-08-28T14:36:50.781857+03:00",
+        "id": "d478a87a09344585885f823fbd0984d2"
+      },
+      {
+        "hash": "md5:d475eb0b9bd84e528b759e6ab30dc116",
+        "author": "tender_owner",
+        "format": "text/plain",
+        "url": "https://public.docs.openprocurement.org/get/b28b498ebdfc4b8ba22aa7883a017c01?KeyID=52462340&Signature=CM1xid23R5L03CWXTO50ZLJzaKsoCTYtdzi%2FtR%252BAnepU4dz6TRcdwaG7HiGZKxF%252B1s38trpPsh3J1JbK2t1mAg%253D%253D",
+        "title": "Додаток 2 Технічні вимоги.docx",
+        "documentOf": "tender",
+        "datePublished": "2020-08-28T14:37:05.219094+03:00",
+        "documentType": "technicalSpecifications",
+        "dateModified": "2020-08-28T14:37:05.219115+03:00",
+        "id": "a9cedbab905643089e73e3690f7b2a05"
+      },
+      {
+        "hash": "md5:f84733c2ce4e279ed36f4b5b2c8546ad",
+        "author": "tender_owner",
+        "format": "text/plain",
+        "url": "https://public.docs.openprocurement.org/get/ac88d3c354a94091897abe4b2559cece?KeyID=52462340&Signature=9isEOZT1UT1Y9kIRMOpR3YDK3U0EaY42krPjVDXzpqmwC4GHygJZth5A4l17IzZlyDwWO%2F7wZxgaRw2b615%252BAw%253D%253D",
+        "title": "Додаток 1 Тендерна пропозиція.docx",
+        "documentOf": "tender",
+        "datePublished": "2020-08-28T14:37:21.363458+03:00",
+        "dateModified": "2020-08-28T14:37:21.363483+03:00",
+        "id": "e2743fd409ac410880e78bc12e650aa5"
+      },
+      {
+        "hash": "md5:08201bc5e610c3988a72fce65d1d97ff",
+        "author": "tender_owner",
+        "format": "text/plain",
+        "url": "https://public.docs.openprocurement.org/get/2792bb104d1d40cbab977e1837b15508?KeyID=52462340&Signature=zKTrCDnHenVk8EPBhlbYog2SoqnAI8wHD%252BUBuQID9A5iIzKMSdzi0Wor6jULBfEMLsT0rw0jCnPZ%252B6DCeJRcDw%253D%253D",
+        "title": "Додаток 3 Відомості про учасника.docx",
+        "documentOf": "tender",
+        "datePublished": "2020-08-28T14:37:21.776030+03:00",
+        "dateModified": "2020-08-28T14:37:21.776051+03:00",
+        "id": "c02ac96aa28d4ba99d4766f5f0fd878f"
+      },
+      {
+        "hash": "md5:f40f11e3634e370da3b53486d5195b37",
+        "author": "tender_owner",
+        "format": "text/plain",
+        "url": "https://public.docs.openprocurement.org/get/f5c6172a5e0c4485ae25b370f3b3f745?KeyID=52462340&Signature=4saN0m8puQZEwlMQ1Mo9bG%252BaevE65unw4GSsSO4oLduDPHe7Ovh4ov1p7kpxemduIJM00lHSSw65qutAvb3aCw%253D%253D",
+        "title": "Тендерна документація.docx",
+        "documentOf": "tender",
+        "datePublished": "2020-08-28T14:37:37.511127+03:00",
+        "documentType": "biddingDocuments",
+        "dateModified": "2020-08-28T14:37:37.511153+03:00",
+        "id": "90f69172b60a47fe8e4d023cdf576320"
+      },
+      {
+        "hash": "md5:f8270e83934e62804d4b53fb4802e062",
+        "author": "tender_owner",
+        "format": "text/plain",
+        "url": "https://public.docs.openprocurement.org/get/51a5c2abc6114458b21b9b94d8c0d6e9?KeyID=52462340&Signature=VeGqCpjWYqfVl8Hr3aRneyHFDOeoLK70W54R1tF4HmiZBeOwtV878eiaiaZmgKMqaS4FU53PtrpGiy8JoKkJCQ%253D%253D",
+        "title": "Тендерна документація.docx",
+        "documentOf": "tender",
+        "datePublished": "2020-08-28T14:37:37.511127+03:00",
+        "documentType": "biddingDocuments",
+        "dateModified": "2020-08-28T14:39:20.379383+03:00",
+        "id": "90f69172b60a47fe8e4d023cdf576320"
+      },
+      {
+        "hash": "md5:8159393abf6862218993d1ad2f44c170",
+        "author": "tender_owner",
+        "format": "application/pkcs7-signature",
+        "url": "https://public.docs.openprocurement.org/get/39c96b32611d4e8688ca18a9d12ebbdb?KeyID=52462340&Signature=x7W8ISWuWP%2FzDK7Matg%252B7F%2Fal4PoJ8SADr53c7UNVqYa8ps6c28NqFcGiPKny2g6Axujqi0hrjwb4lqoHayPDA%253D%253D",
+        "title": "sign.p7s",
+        "documentOf": "tender",
+        "datePublished": "2020-08-28T14:40:27.973170+03:00",
+        "dateModified": "2020-08-28T14:40:27.973189+03:00",
+        "id": "18669bda55d347e2b314de04e85aeccf"
+      }
+    ],
+    "title": "Сервер автоматизації мовлення (ДК 021:2015 - 48820000-2 Сервери)",
+    "plans": [
+      {
+        "id": "75e6fc465740425a91dbbd08b2b55894"
+      }
+    ],
+    "tenderID": "UA-2020-08-28-003862-c",
+    "guarantee": {
+      "currency": "UAH",
+      "amount": 0.0
+    },
+    "dateModified": "2020-08-28T14:40:27.980162+03:00",
+    "status": "active.tendering",
+    "tenderPeriod": {
+      "startDate": "2020-08-28T14:33:43.443687+03:00",
+      "endDate": "2020-09-14T00:00:00+03:00"
+    },
+    "auctionPeriod": {
+      "startDate": "2020-09-14T12:58:24+03:00",
+      "shouldStartAfter": "2020-09-14T00:00:00+03:00"
+    },
+    "procurementMethodType": "aboveThresholdUA",
+    "date": "2020-08-28T14:33:44.205758+03:00",
+    "milestones": [
+      {
+        "code": "postpayment",
+        "sequenceNumber": 1,
+        "title": "deliveryOfGoods",
+        "duration": {
+          "type": "banking",
+          "days": 10
+        },
+        "percentage": 100.0,
+        "type": "financing",
+        "id": "da22ffe711194b38b7a5a1d239183d14"
+      }
+    ],
+    "minimalStep": {
+      "currency": "UAH",
+      "amount": 4993.1427,
+      "valueAddedTaxIncluded": true
+    },
+    "items": [
+      {
+        "description": "Сервер автоматизації мовлення (ДК 021:2015 - 48820000-2 Сервери)",
+        "classification": {
+          "scheme": "ДК021",
+          "description": "Сервери",
+          "id": "48820000-2"
+        },
+        "deliveryAddress": {
+          "postalCode": "69035",
+          "countryName": "Україна",
+          "streetAddress": "вул.Сєдова, буд.5",
+          "region": "Запорізька область",
+          "locality": "Запоріжжя"
+        },
+        "deliveryDate": {
+          "endDate": "2020-10-31T00:00:00+02:00"
+        },
+        "id": "701eb0f21150437da93b94a77c2aa0d1",
+        "unit": {
+          "code": "H87",
+          "name": "штуки"
+        },
+        "quantity": 1.0
+      }
+    ],
+    "value": {
+      "currency": "UAH",
+      "amount": 499314.27,
+      "valueAddedTaxIncluded": true
+    },
+    "awardCriteria": "lowestCost"
+  }
+}

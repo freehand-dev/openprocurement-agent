@@ -62,7 +62,9 @@ The content of the file will be the following one
 	[Action:SendMail]
 	Username=sender@corp-mail.com
 	Password=password
-	ServerUrl=https://exchange-server/EWS/Exchange.asmx
+	Server=smtp.server.com
+	Port=25
+	EnableSsl=false
 	MailTo:0=user@corp-mail.com
 	MailTo:1=user1@corp-mail.com
 
@@ -74,6 +76,8 @@ The content of the file will be the following one
 
 	#
 	[Transform:Status]
+	Allow:0=active.enquiries
+	Allow:1=active.tendering
 
 	#
 	[Transform:Identifier]
