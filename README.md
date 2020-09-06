@@ -60,6 +60,7 @@ The content of the file will be the following one
 
 	#
 	[Action:SendMail]
+	Enabled=true
 	Username=sender@corp-mail.com
 	Password=password
 	Server=smtp.server.com
@@ -70,17 +71,21 @@ The content of the file will be the following one
 
 	#
 	[Action:TendersHistory]
+	Enabled=true
 
 	#
 	[Transform:TendersHistory]
+	Enabled=true
 
 	#
 	[Transform:Status]
+	Enabled=true
 	Allow:0=active.enquiries
 	Allow:1=active.tendering
 
 	#
 	[Transform:Identifier]
+	Enabled=true
 
 	#
 	[Logging:LogLevel]
