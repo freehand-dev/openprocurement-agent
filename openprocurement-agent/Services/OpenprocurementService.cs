@@ -50,9 +50,9 @@ namespace openprocurement_agent.Services
 
         public override void Dispose()
         {
-            _tenderHistoryDbContex.Dispose();
+            _tenderHistoryDbContex?.Dispose();
 
-            _procuringEntityDbContex.Dispose();
+            _procuringEntityDbContex?.Dispose();
         }
 
         public override async Task StartAsync(CancellationToken stoppingToken)
