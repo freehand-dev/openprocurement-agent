@@ -101,9 +101,14 @@ namespace openprocurement_agent.Services
                         }
                     }
 
+
                     // End of Tenders, wait for new tenders
                     if (response.NextPage.Offset == offset)
-                        await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
+                    {
+                        /// The safe frequency of synchronization requests is once per 5 minutes.
+                        /// http://api-docs.openprocurement.org/en/latest/tenders.html
+                        await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
+                    }
 
                     offset = response.NextPage.Offset;
                 } 

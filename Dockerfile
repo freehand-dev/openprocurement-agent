@@ -11,6 +11,8 @@ FROM build AS publish
 RUN dotnet publish --runtime linux-x64 --output /app/publish -c Release "./openprocurement-agent/openprocurement-agent.csproj"
 
 FROM base AS final
+ENV TZ=Europe/Kiev
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN mkdir -p /opt/openprocurement-agent/bin
 RUN mkdir -p /opt/openprocurement-agent/etc/openprocurement-agent
 WORKDIR /opt/openprocurement-agent/bin

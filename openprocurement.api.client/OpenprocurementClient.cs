@@ -45,6 +45,12 @@ namespace openprocurement.api.client
             this.DefaultRequestHeaders.Add("User-Agent", "Oleksandr Nazaruk");
         }
 
+        /// <summary>
+        /// http://api-docs.openprocurement.org/en/latest/tenders.html
+        /// </summary>
+        /// <param name="offset">This is the parameter you have to add to the original request you made to get next page.</param>
+        /// <param name="limit">You can control the number of data entries in the tenders feed (batch size) with limit parameter. If not specified, data is being returned in batches of 100 elements.</param>
+        /// <returns></returns>
         public async Task<Models.TendersResponse> GetTendersAsync(DateTime offset, int limit = 0)
         {
 
