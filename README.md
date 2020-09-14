@@ -91,3 +91,10 @@ The content of the file will be the following one
 	[Logging:LogLevel]
 	Default=Debug
 	Microsoft=Warning
+
+## Docker
+
+	$ docker pull oleksandrnazaruk/openprocurement-agent:latest
+	
+	$ docker volume create openprocurement-agent_data
+	$ docker run --detach --name openprocurement-agent --restart=always -v openprocurement-agent_data:/opt/openprocurement-agent/etc/openprocurement-agent oleksandrnazaruk/openprocurement-agent:latest
