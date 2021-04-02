@@ -26,7 +26,34 @@ namespace openprocurement_agent.MessagePipeline
                         return;
 
                     // send mail
-                    ExchangeAction.SendMail(settings.Username, settings.Password, settings.MailTo, settings.Server, settings.Port, settings.EnableSsl, message);
+                    System.Net.Mail.MailMessage mailMessage = new System.Net.Mail.MailMessage();
+                    mailMessage.From = new MailAddress(settings.From);
+                    foreach (string mailTo in settings.MailTo)
+                        mailMessage.To.Add(mailTo);
+                    mailMessage.Subject = StringTemplate.ToString(settings.Subject, message).Replace('\r', ' ').Replace('\n', ' ');
+                    mailMessage.IsBodyHtml = true;
+                    string body = message.ToHTML().ToString();
+
+                    if (!String.IsNullOrEmpty(settings.MessageTemplateFile))
+                    {
+                        if (System.IO.File.Exists(settings.MessageTemplateFile))
+                        {
+                            body = System.IO.File.ReadAllText(settings.MessageTemplateFile);
+                            if (!String.IsNullOrEmpty(body))
+                                body = body.Replace("%body%", message.ToHTMLBody().ToString());
+                        }
+                    }
+
+                    mailMessage.Body = body;
+
+                    using (System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient(settings.Server))
+                    {
+                        client.Credentials = new System.Net.NetworkCredential(settings.Username, settings.Password);
+                        client.Port = settings.Port;
+                        client.EnableSsl = settings.EnableSsl;
+                        client.Send(mailMessage);
+                    }
+
 
                     logger.LogInformation($"Information about a Tender sent successfully [{ message.Id }][{message.DateModified:o}][{ message.Status }] { message.Title }");
                 }
@@ -38,25 +65,7 @@ namespace openprocurement_agent.MessagePipeline
             });
         }
 
-        static public void SendMail(string MailUser, string MailPass, List<string> MailsTo, string SmtpServer, int Port, bool EnableSsl, Tender tender)
-        {
-            System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage();
-        
-            message.From = new MailAddress("openprocurement@engineer-service.tv", "Tenders Agent"); 
-            foreach (string mailTo in MailsTo)
-                message.To.Add(mailTo);
-            message.Subject = $"{ tender.Title } - ({ tender.ProcuringEntity?.Name })".Replace('\r', ' ').Replace('\n', ' ');
-            message.IsBodyHtml = true;
-            message.Body = tender.ToHTML().ToString();
 
-            using (System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient(SmtpServer)) 
-            {
-                client.Credentials = new System.Net.NetworkCredential(MailUser, MailPass); 
-                client.Port = Port; 
-                client.EnableSsl = EnableSsl;
-                client.Send(message);
-            }
-        }
 
 
     }

@@ -24,5 +24,16 @@ namespace openprocurement.api.client.Models
         /// </summary>
         [JsonPropertyName("valueAddedTaxIncluded")]
         public bool ValueAddedTaxIncluded { get; set; }
+
+        [JsonPropertyName("string")]
+        public string String {
+            get 
+            {
+                return this.ToString();
+            }
+        }
+
+        public override string ToString() => $"{ this.Amount } { this.Currency } { ((this.ValueAddedTaxIncluded) ? "з ПДВ" : "") }".Trim();
+
     }
 }

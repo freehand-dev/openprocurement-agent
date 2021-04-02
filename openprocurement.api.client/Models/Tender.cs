@@ -327,7 +327,6 @@ namespace openprocurement.api.client.Models
             var html = new StringBuilder();
 
             html.Append("<html>");
-            html.Append("<html>");
             html.Append("	<head>");
             html.Append("		<style>");
             html.Append("			body, td{");
@@ -353,6 +352,18 @@ namespace openprocurement.api.client.Models
             html.Append("		<meta name=\"robots\" content=\"noindex\" />");
             html.Append("	</head>");
             html.Append("	<body>");
+
+            html.Append(this.ToHTMLBody());
+
+            html.Append("	</body>");
+            html.Append("</html>");
+            return html;
+        }
+
+
+        public StringBuilder ToHTMLBody()
+        {
+            var html = new StringBuilder();
 
             html.Append("		<center style=\"text-align:center\">");
             html.Append("			<h2>ОГОЛОШЕННЯ</h2>");
@@ -406,7 +417,7 @@ namespace openprocurement.api.client.Models
                 html.Append($"					<div>{item.Description}</div>");
                 html.Append("				</td>");
                 html.Append("				<td>");
-                html.Append($"					<div>{item.Classification?.Scheme}: {item.Classification?.Id} — {item.Classification?.Description}</div>");							
+                html.Append($"					<div>{item.Classification?.Scheme}: {item.Classification?.Id} — {item.Classification?.Description}</div>");
                 html.Append("				</td>");
                 html.Append("				<td>");
                 html.Append($"					{item.Quantity} {item.Unit.Name}");
@@ -420,13 +431,8 @@ namespace openprocurement.api.client.Models
                 html.Append("			</tr>");
             }
 
-
-
             html.Append("		</table>");
 
-
-            html.Append("	</body>");
-            html.Append("</html>");
             return html;
         }
 

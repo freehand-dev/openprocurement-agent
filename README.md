@@ -61,13 +61,16 @@ The content of the file will be the following one
 	#
 	[Action:SendMail]
 	Enabled=true
+	From="Tenders Agent <sender@corp-mail.com>"
 	Username=sender@corp-mail.com
 	Password=password
 	Server=smtp.server.com
 	Port=25
 	EnableSsl=false
+	Subject="%Value.String% - %Title% - (%ProcuringEntity.Name%)"
 	MailTo:0=user@corp-mail.com
 	MailTo:1=user1@corp-mail.com
+	#MessageTemplateFile=message.html
 
 	#
 	[Action:TendersHistory]

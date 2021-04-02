@@ -20,4 +20,13 @@
   <ItemGroup>
     <ProjectReference Include="..\openprocurement.api.client\openprocurement.api.client.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="message.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="openprocurement-agent.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

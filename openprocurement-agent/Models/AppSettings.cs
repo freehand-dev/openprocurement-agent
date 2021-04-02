@@ -82,12 +82,15 @@ namespace openprocurement_agent.Models
     public class ActionSetting_SendMail
     {
         public bool Enabled { get; set; } = false;
+        public string From { get; set; } = "Tenders Agent";
         public string Username { get; set; }
         public string Password { get; set; }
         public string Server { get; set; }
         public int Port { get; set; } = 25;
         public bool EnableSsl { get; set; } = false;
+        public string Subject { get; set; } = @"{Title} - ({ProcuringEntity.Name})";
         public List<string> MailTo { get; set; }
+        public string MessageTemplateFile { get; set; }
 
         static String SecureStringToString(SecureString value)
         {
