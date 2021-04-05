@@ -369,8 +369,8 @@ namespace openprocurement.api.client.Models
             html.Append("			<h2>ОГОЛОШЕННЯ</h2>");
             html.Append("			<br>");
             //html.Append($"			<div><a href=\"https://zakupivli24.pb.ua/prozorro/tender/{this.TenderID}\">{this.TenderID}</a></div>");
-            html.Append($"          <div id=\"info-tender\" data-Id=\"{this.Id}\" data-TenderID=\"{this.TenderID}\" data-Title=\"{this.Title}\" data-ProcuringEntityName=\"{this.ProcuringEntity?.Name}\">");
-            html.Append($"			    <span id=\"tenderId\">{this.TenderID}</span>");
+            html.Append($"          <div id=\"tender-info\" data-id=\"{this.Id}\" data-tenderid=\"{this.TenderID}\" data-title=\"{this.Title.Replace("\"", "\\\"")}\" data-procuringentity-name=\"{this.ProcuringEntity?.Name.Replace("\"", "\\\"")}\">");
+            html.Append($"			    <span id=\"tender-tenderid\">{this.TenderID}</span>");
             html.Append($"	            | <a  href=\"https://prozorro.gov.ua/tender/{this.TenderID}\">на Prozorro</a> | <a href=\"https://dozorro.org/tender/{this.TenderID}\">на Dozorro</a> | <a href=\"https://zakupivli24.pb.ua/prozorro/tender/{this.TenderID}\">на Zakupivli24</a>");
             html.Append("           </div>");
 
@@ -380,7 +380,7 @@ namespace openprocurement.api.client.Models
             html.Append("		<tr>");
             html.Append("			<td width=\"30\">1.</td>");
             html.Append("			<td width=\"272\">Найменування замовника:</td>");
-            html.Append($"			<td><strong>{this.ProcuringEntity?.Name}</strong></td>");
+            html.Append($"			<td><div id=\"tender-procuringentity-name\" style=\"font-weight: bold;\">{this.ProcuringEntity?.Name}</div></td>");
             html.Append("		</tr>");
             html.Append("		<tr>");
             html.Append("			<td>2.</td>");
