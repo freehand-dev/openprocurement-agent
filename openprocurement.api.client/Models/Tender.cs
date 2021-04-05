@@ -367,7 +367,13 @@ namespace openprocurement.api.client.Models
 
             html.Append("		<center style=\"text-align:center\">");
             html.Append("			<h2>ОГОЛОШЕННЯ</h2>");
-            html.Append($"			<div><br><a href=\"https://zakupivli24.pb.ua/prozorro/tender/{this.TenderID}\">{this.TenderID}</a></div>");
+            html.Append("			<br>");
+            //html.Append($"			<div><a href=\"https://zakupivli24.pb.ua/prozorro/tender/{this.TenderID}\">{this.TenderID}</a></div>");
+            html.Append($"          <div id=\"info-tender\" data-Id=\"{this.Id}\" data-TenderID=\"{this.TenderID}\" data-Title=\"{this.Title}\" data-ProcuringEntityName=\"{this.ProcuringEntity?.Name}\">");
+            html.Append($"			    <span id=\"tenderId\">{this.TenderID}</span>");
+            html.Append($"	            | <a  href=\"https://prozorro.gov.ua/tender/{this.TenderID}\">на Prozorro</a> | <a href=\"https://dozorro.org/tender/{this.TenderID}\">на Dozorro</a> | <a href=\"https://zakupivli24.pb.ua/prozorro/tender/{this.TenderID}\">на Zakupivli24</a>");
+            html.Append("           </div>");
+
             html.Append("		</center>");
             html.Append("		<br><br>");
             html.Append("		<table cellpadding=\"5\" cellspacing=\"0\" border=\"0\" width=\"100%\">");
