@@ -48,7 +48,16 @@ namespace XUnitTestProject
             Assert.Equal(
                 "6300000 UAH - 34520000 - 8 ×îâíè(Ìîòîğíèé ÷îâåí ïğîì³ğíèé) - (Ô²Ë²ß \"ÄÍÎÏÎÃËÈÁËŞÂÀËÜÍÈÉ ÔËÎÒ\" ÄÅĞÆÀÂÍÎÃÎ Ï²ÄÏĞÈªÌÑÒÂÀ \"ÀÄÌ²Í²ÑÒĞÀÖ²ß ÌÎĞÑÜÊÈÕ ÏÎĞÒ²Â ÓÊĞÀ¯ÍÈ\")",
                 StringTemplate.ToString(@"{Value.String} - {Title} - ({ProcuringEntity.Name})", x.Data));
-        }      
+        }
+
+        [Fact]
+        public async void TestToHTML001()
+        {
+            var x = await client.GetTenderAsync("b6c1b8c0c2074bc8b9380cff823ee8e3");
+
+            System.IO.File.WriteAllText("tender.html", 
+                x.Data.ToHTML().ToString());
+        }
 
         [Fact]
         public async void TestTenderDocuments()
