@@ -60,6 +60,24 @@ namespace XUnitTestProject
         }
 
         [Fact]
+        public async void TestToHTML002()
+        {
+            var x = await client.GetTenderAsync("b6c1b8c0c2074bc8b9380cff823ee8e3");
+            var message = x.Data;
+
+            var body = System.IO.File.ReadAllText("message.html");
+            if (!String.IsNullOrEmpty(body))
+            {
+                body = body.Replace("%body%", message.ToHTMLBody().ToString());
+                body = StringTemplate.ToString(body, message);
+            }
+
+            System.IO.File.WriteAllText("tender.html",
+                body);
+        }
+
+
+    [Fact]
         public async void TestTenderDocuments()
         {
             var x = await client.GetTenderDocumentsAsync("62a722e0afcb42eea8dd2c57f8c868f4");

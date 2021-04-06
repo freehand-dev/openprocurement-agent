@@ -34,13 +34,16 @@ namespace openprocurement_agent.MessagePipeline
                     mailMessage.IsBodyHtml = true;
                     string body = message.ToHTML().ToString();
 
-                    if (!String.IsNullOrEmpty(settings.MessageTemplateFile))
+                    if (!String.IsNullOrWhiteSpace(settings.MessageTemplateFile))
                     {
                         if (System.IO.File.Exists(settings.MessageTemplateFile))
                         {
                             body = System.IO.File.ReadAllText(settings.MessageTemplateFile);
-                            if (!String.IsNullOrEmpty(body))
+                            if (!String.IsNullOrWhiteSpace(body))
+                            {
                                 body = body.Replace("%body%", message.ToHTMLBody().ToString());
+                                body = StringTemplate.ToString(body, message);
+                            }           
                         }
                     }
 
