@@ -4,6 +4,7 @@ using openprocurement.api.client.Models;
 using openprocurement_agent;
 using System;
 using System.Diagnostics;
+using System.Net.Mail;
 using Xunit;
 
 namespace XUnitTestProject
@@ -44,10 +45,10 @@ namespace XUnitTestProject
         public async void TestStringTemplate001()
         {
             var x = await client.GetTenderAsync("b6c1b8c0c2074bc8b9380cff823ee8e3");
-
+            var result = StringTemplate.ToString(@"%Value.String% - %Title% - (%ProcuringEntity.Name%)", x.Data);
             Assert.Equal(
-                "6300000 UAH - 34520000 - 8 ×îâíè(Ìîòîğíèé ÷îâåí ïğîì³ğíèé) - (Ô²Ë²ß \"ÄÍÎÏÎÃËÈÁËŞÂÀËÜÍÈÉ ÔËÎÒ\" ÄÅĞÆÀÂÍÎÃÎ Ï²ÄÏĞÈªÌÑÒÂÀ \"ÀÄÌ²Í²ÑÒĞÀÖ²ß ÌÎĞÑÜÊÈÕ ÏÎĞÒ²Â ÓÊĞÀ¯ÍÈ\")",
-                StringTemplate.ToString(@"{Value.String} - {Title} - ({ProcuringEntity.Name})", x.Data));
+                "6300000 UAH - 34520000-8 ×îâíè (Ìîòîğíèé ÷îâåí ïğîì³ğíèé) - (Ô²Ë²ß \"ÄÍÎÏÎÃËÈÁËŞÂÀËÜÍÈÉ ÔËÎÒ\" ÄÅĞÆÀÂÍÎÃÎ Ï²ÄÏĞÈªÌÑÒÂÀ \"ÀÄÌ²Í²ÑÒĞÀÖ²ß ÌÎĞÑÜÊÈÕ ÏÎĞÒ²Â ÓÊĞÀ¯ÍÈ\")",
+                result);
         }
 
         [Fact]
@@ -77,7 +78,60 @@ namespace XUnitTestProject
         }
 
 
-    [Fact]
+        [Fact]
+        public async void TestSendMail001()
+        {
+            var x = await client.GetTenderAsync("b6c1b8c0c2074bc8b9380cff823ee8e3");
+            var message = x.Data;
+
+            var From = "";
+            var Username = "";
+            var Password = "";
+            var Server = "";
+            var Port = 25;
+            var EnableSsl = false;
+            var Subject = "%Value.String% - %Title% - (%ProcuringEntity.Name%)";
+            var MailTo = "";
+            var MessageTemplateFile = "";
+
+
+            // send mail
+            System.Net.Mail.MailMessage mailMessage = new System.Net.Mail.MailMessage
+            {
+                From = new MailAddress(From),
+                Subject = StringTemplate.ToString(Subject, message).Replace('\r', ' ').Replace('\n', ' '),
+                IsBodyHtml = true,
+            };
+
+            mailMessage.To.Add(MailTo);
+
+            string body = message.ToHTML().ToString();
+
+            if (!String.IsNullOrWhiteSpace(MessageTemplateFile))
+            {
+                if (System.IO.File.Exists(MessageTemplateFile))
+                {
+                    body = System.IO.File.ReadAllText(MessageTemplateFile);
+                    if (!String.IsNullOrWhiteSpace(body))
+                    {
+                        body = body.Replace("%body%", message.ToHTMLBody().ToString());
+                        body = StringTemplate.ToString(body, message);
+                    }
+                }
+            }
+
+            mailMessage.Body = body;
+
+            using (System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient(Server))
+            {
+                client.Credentials = new System.Net.NetworkCredential(Username, Password);
+                client.Port = Port;
+                client.EnableSsl = EnableSsl;
+                client.Send(mailMessage);
+            }
+        }
+
+        [Fact]
         public async void TestTenderDocuments()
         {
             var x = await client.GetTenderDocumentsAsync("62a722e0afcb42eea8dd2c57f8c868f4");
