@@ -13,7 +13,9 @@ namespace openprocurement.api.client.Models
         [JsonPropertyName("uri")]
         public Uri Uri { get; set; }
 
+
+        [JsonConverter(typeof(JsonConverter.DateTimeOffsetJsonConverter))]
         [JsonPropertyName("offset")]
-        public DateTime Offset { get; set; }
+        public DateTimeOffset Offset { get; set; }
     }
 }

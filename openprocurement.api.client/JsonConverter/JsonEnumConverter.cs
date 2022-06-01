@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace openprocurement.api.client.Models
+namespace openprocurement.api.client.JsonConverter
 {
     public class JsonEnumConverter<T> : JsonConverter<T> where T : struct, Enum, IComparable, IConvertible, IFormattable
     {

@@ -67,7 +67,7 @@ namespace openprocurement_agent.Services
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             // startup offset, subtract from now Datetime
-            DateTime offset = DateTime.Now.Subtract(TimeSpan.FromHours(this._settings.Global.Subtract));
+            DateTimeOffset offset = DateTime.Now.Subtract(TimeSpan.FromHours(this._settings.Global.Subtract));
 
             while (!stoppingToken.IsCancellationRequested)
             {

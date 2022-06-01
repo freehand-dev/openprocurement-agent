@@ -51,7 +51,7 @@ namespace openprocurement.api.client
         /// <param name="offset">This is the parameter you have to add to the original request you made to get next page.</param>
         /// <param name="limit">You can control the number of data entries in the tenders feed (batch size) with limit parameter. If not specified, data is being returned in batches of 100 elements.</param>
         /// <returns></returns>
-        public async Task<Models.TendersResponse> GetTendersAsync(DateTime offset, int limit = 0)
+        public async Task<Models.TendersResponse> GetTendersAsync(DateTimeOffset offset, int limit = 0)
         {
 
             Dictionary<string, object> queryParams = new Dictionary<string, object>()

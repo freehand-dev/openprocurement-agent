@@ -16,7 +16,8 @@ namespace XUnitTestProject
         [Fact]
         public async void Test1()
         {
-            var x = await client.GetTendersAsync(DateTime.Now.AddDays(1), 0);
+            var x = await client.GetTendersAsync(DateTime.Now.AddDays(-1), 0);
+            Debug.WriteLine($"{ x.NextPage.Offset }");
             // var x = await client.GetTendersAsync(DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)), 0);
         }
 

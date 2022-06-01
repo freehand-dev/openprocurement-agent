@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>dotnet-openprocurement_agent-51096AE1-175F-41BE-B440-C23CE543AA98</UserSecretsId>
     <RootNamespace>openprocurement_agent</RootNamespace>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>

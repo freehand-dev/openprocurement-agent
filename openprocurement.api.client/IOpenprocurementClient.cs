@@ -17,7 +17,7 @@ namespace openprocurement.api.client
         /// <param name="offset"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public Task<TendersResponse> GetTendersAsync(DateTime offset, int limit = 0);
+        public Task<TendersResponse> GetTendersAsync(DateTimeOffset offset, int limit = 0);
 
         public Task<DataResponse<Tender>> GetTenderAsync(string Id);
 
