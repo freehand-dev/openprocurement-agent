@@ -27,7 +27,7 @@ namespace openprocurement.api.client
             Converters = {
                 new JsonStringEnumConverter( JsonNamingPolicy.CamelCase)
             },
-            IgnoreNullValues = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             PropertyNameCaseInsensitive = true
         };
 

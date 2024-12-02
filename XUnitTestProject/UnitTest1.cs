@@ -5,6 +5,7 @@ using openprocurement_agent;
 using System;
 using System.Diagnostics;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace XUnitTestProject
@@ -14,7 +15,7 @@ namespace XUnitTestProject
         private static readonly OpenprocurementClient client = new OpenprocurementClient();
 
         [Fact]
-        public async void Test1()
+        public async Task Test1()
         {
             var x = await client.GetTendersAsync(DateTime.Now.AddDays(-1), 0);
             Debug.WriteLine($"{ x.NextPage.Offset }");
@@ -22,7 +23,7 @@ namespace XUnitTestProject
         }
 
         [Fact]
-        public async void TestError()
+        public async Task TestError()
         {
             try
             {
@@ -35,7 +36,7 @@ namespace XUnitTestProject
         }
 
         [Fact]
-        public async void TestTender()
+        public async Task TestTender()
         {
             var x = await client.GetTenderAsync("b6c1b8c0c2074bc8b9380cff823ee8e3");
             // Debug.WriteLine(
@@ -43,7 +44,7 @@ namespace XUnitTestProject
         }
 
         [Fact]
-        public async void TestStringTemplate001()
+        public async Task TestStringTemplate001()
         {
             var x = await client.GetTenderAsync("b6c1b8c0c2074bc8b9380cff823ee8e3");
             var result = StringTemplate.ToString(@"%Value.String% - %Title% - (%ProcuringEntity.Name%)", x.Data);
@@ -53,7 +54,7 @@ namespace XUnitTestProject
         }
 
         [Fact]
-        public async void TestToHTML001()
+        public async Task TestToHTML001()
         {
             var x = await client.GetTenderAsync("b6c1b8c0c2074bc8b9380cff823ee8e3");
 
@@ -62,7 +63,7 @@ namespace XUnitTestProject
         }
 
         [Fact]
-        public async void TestToHTML002()
+        public async Task TestToHTML002()
         {
             var x = await client.GetTenderAsync("b6c1b8c0c2074bc8b9380cff823ee8e3");
             var message = x.Data;
@@ -80,7 +81,7 @@ namespace XUnitTestProject
 
 
         [Fact]
-        public async void TestSendMail001()
+        public async Task TestSendMail001()
         {
             var x = await client.GetTenderAsync("b6c1b8c0c2074bc8b9380cff823ee8e3");
             var message = x.Data;
@@ -133,7 +134,7 @@ namespace XUnitTestProject
         }
 
         [Fact]
-        public async void TestTenderDocuments()
+        public async Task TestTenderDocuments()
         {
             var x = await client.GetTenderDocumentsAsync("62a722e0afcb42eea8dd2c57f8c868f4");
         }
