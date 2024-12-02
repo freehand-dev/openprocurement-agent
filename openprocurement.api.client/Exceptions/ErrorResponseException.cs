@@ -7,6 +7,7 @@ using System.Threading;
 using System.Text;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace openprocurement.api.client.Exceptions
 {
@@ -41,7 +42,7 @@ namespace openprocurement.api.client.Exceptions
         public static async Task<ErrorResponse> Deserialize(HttpResponseMessage httpResponse)
         {
             var contentStream = await httpResponse.Content.ReadAsStreamAsync();
-            return await System.Text.Json.JsonSerializer.DeserializeAsync<ErrorResponse>(contentStream, new System.Text.Json.JsonSerializerOptions { IgnoreNullValues = true, PropertyNameCaseInsensitive = true });
+            return await System.Text.Json.JsonSerializer.DeserializeAsync<ErrorResponse>(contentStream, new System.Text.Json.JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, PropertyNameCaseInsensitive = true });
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -25,10 +26,10 @@ namespace openprocurement.api.client.JsonConverter
             {
                 case JsonTokenType.Number:
                     return UnixTimeStampToDateTime(
-                        reader.GetDouble());
+                        Math.Floor(reader.GetDouble()));
                 default:
-                    return DateTimeOffset.Parse(
-                        reader.GetString());
+                    var unixTimeString = reader.GetString();
+                    return double.TryParse(unixTimeString, out double unixTime) ? DateTimeOffset.FromUnixTimeSeconds((long)Math.Floor(unixTime)) : DateTimeOffset.Parse(unixTimeString);          
             }     
         }
                

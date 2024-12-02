@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30330.147
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35521.163 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "openprocurement-agent", "openprocurement-agent\openprocurement-agent.csproj", "{93EA9324-8124-44D8-A2F4-4CFAFA90367F}"
 EndProject
@@ -11,6 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTestProject", "XUnitTe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A6DA822E-7C89-4D33-BA8C-C9FB3CBA22CC}"
 	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build-and-publish-docker.yaml = .github\workflows\build-and-publish-docker.yaml
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
