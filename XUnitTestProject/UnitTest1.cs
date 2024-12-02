@@ -1,4 +1,4 @@
-using openprocurement.api.client;
+ï»¿using openprocurement.api.client;
 using openprocurement.api.client.Exceptions;
 using openprocurement.api.client.Models;
 using openprocurement_agent;
@@ -49,7 +49,7 @@ namespace XUnitTestProject
             var x = await client.GetTenderAsync("b6c1b8c0c2074bc8b9380cff823ee8e3");
             var result = StringTemplate.ToString(@"%Value.String% - %Title% - (%ProcuringEntity.Name%)", x.Data);
             Assert.Equal(
-                "6300000 UAH - 34520000-8 ×îâíè (Ìîòîğíèé ÷îâåí ïğîì³ğíèé) - (Ô²Ë²ß \"ÄÍÎÏÎÃËÈÁËŞÂÀËÜÍÈÉ ÔËÎÒ\" ÄÅĞÆÀÂÍÎÃÎ Ï²ÄÏĞÈªÌÑÒÂÀ \"ÀÄÌ²Í²ÑÒĞÀÖ²ß ÌÎĞÑÜÊÈÕ ÏÎĞÒ²Â ÓÊĞÀ¯ÍÈ\")",
+                "6300000 UAH - 34520000-8 Ğ§Ğ¾Ğ²Ğ½Ğ¸ (ĞœĞ¾Ñ‚Ğ¾Ñ€Ğ½Ğ¸Ğ¹ Ñ‡Ğ¾Ğ²ĞµĞ½ Ğ¿Ñ€Ğ¾Ğ¼Ñ–Ñ€Ğ½Ğ¸Ğ¹) - (Ğ¤Ğ†Ğ›Ğ†Ğ¯ \"Ğ”ĞĞĞŸĞĞ“Ğ›Ğ˜Ğ‘Ğ›Ğ®Ğ’ĞĞ›Ğ¬ĞĞ˜Ğ™ Ğ¤Ğ›ĞĞ¢\" Ğ”Ğ•Ğ Ğ–ĞĞ’ĞĞĞ“Ğ ĞŸĞ†Ğ”ĞŸĞ Ğ˜Ğ„ĞœĞ¡Ğ¢Ğ’Ğ \"ĞĞ”ĞœĞ†ĞĞ†Ğ¡Ğ¢Ğ ĞĞ¦Ğ†Ğ¯ ĞœĞĞ Ğ¡Ğ¬ĞšĞ˜Ğ¥ ĞŸĞĞ Ğ¢Ğ†Ğ’ Ğ£ĞšĞ ĞĞ‡ĞĞ˜\")",
                 result);
         }
 
