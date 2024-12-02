@@ -3,8 +3,9 @@ name: Build and Publish Docker Image
 on:
   workflow_dispatch: 
 
-permissions:
-  contents: write
+permissions: 
+  contents: write 
+  packages: write
 
 jobs:
   build:
