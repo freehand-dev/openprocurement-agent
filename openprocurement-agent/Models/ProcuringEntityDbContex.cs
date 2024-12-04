@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -29,6 +30,9 @@ namespace openprocurement_agent.Models
             {
                 options.UseSqlite(@"Data Source=ProcuringEntity.db");
             }
+
+            // Suppress the pending model changes warning (optional)
+            options.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
         }
     }
 
