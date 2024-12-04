@@ -14,7 +14,8 @@ namespace openprocurement.api.client.Models
 
         public enum TypeEnum
         {
-            Financing
+            Financing,
+            Delivery
         }
 
         /// <summary>
