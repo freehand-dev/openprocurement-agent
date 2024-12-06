@@ -26,10 +26,10 @@ namespace openprocurement.api.client.JsonConverter
             {
                 case JsonTokenType.Number:
                     return UnixTimeStampToDateTime(
-                        Math.Floor(reader.GetDouble()));
+                        reader.GetDouble());
                 default:
                     var unixTimeString = reader.GetString();
-                    return double.TryParse(unixTimeString, out double unixTime) ? DateTimeOffset.FromUnixTimeSeconds((long)Math.Floor(unixTime)) : DateTimeOffset.Parse(unixTimeString);          
+                    return double.TryParse(unixTimeString, out double unixTime) ? UnixTimeStampToDateTime(unixTime) : DateTimeOffset.Parse(unixTimeString).ToUniversalTime();          
             }     
         }
                
