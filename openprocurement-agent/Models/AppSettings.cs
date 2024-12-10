@@ -91,19 +91,5 @@ namespace openprocurement_agent.Models
         public string Subject { get; set; } = @"{Title} - ({ProcuringEntity.Name})";
         public List<string> MailTo { get; set; }
         public string MessageTemplateFile { get; set; }
-
-        static String SecureStringToString(SecureString value)
-        {
-            IntPtr valuePtr = IntPtr.Zero;
-            try
-            {
-                valuePtr = Marshal.SecureStringToGlobalAllocUnicode(value);
-                return Marshal.PtrToStringUni(valuePtr);
-            }
-            finally
-            {
-                Marshal.ZeroFreeGlobalAllocUnicode(valuePtr);
-            }
-        }
     }
 }

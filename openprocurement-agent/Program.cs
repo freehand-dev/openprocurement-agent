@@ -1,16 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting.Systemd;
-using Microsoft.Extensions.Hosting.WindowsServices;
-using Microsoft.Extensions.Hosting;
-using System.IO;
-using openprocurement.api.client.Models;
 using Microsoft.EntityFrameworkCore;
+using openprocurement.api.client;
 
 namespace openprocurement_agent
 {
@@ -19,6 +8,7 @@ namespace openprocurement_agent
 
         public static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -87,6 +77,14 @@ namespace openprocurement_agent
                     }
                     // Configuration
                     services.Configure<Models.AppSettings>(hostContext.Configuration);
+
+                    //
+                    // Add HttpClient services
+                    services.AddHttpClient();
+
+                    // Register OpenprocurementClient API client service
+                    services.AddHttpClient<IOpenprocurementClient, OpenprocurementClient>();
+
 
                     //OpenProcurement Service
                     services.AddHostedService<Services.OpenprocurementService>();

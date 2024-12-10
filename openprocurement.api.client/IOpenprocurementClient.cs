@@ -1,14 +1,13 @@
 ﻿using openprocurement.api.client.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace openprocurement.api.client
 {
     public interface IOpenprocurementClient
     {
-        
         /// <summary>
         /// Getting list of all tenders
         /// https://public.api.openprocurement.org/api/2.3/tenders?offset=2020-07-21T14:44:02.5005518+03:00&limit=10
@@ -16,14 +15,41 @@ namespace openprocurement.api.client
         /// </summary>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<TendersResponse> GetTendersAsync(DateTimeOffset offset, int limit = 0);
+        public Task<TendersResponse> GetTendersAsync(DateTimeOffset? offset, int? limit, CancellationToken cancellationToken);
 
-        public Task<DataResponse<Tender>> GetTenderAsync(string Id);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nextPage"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<TendersResponse> GetTendersAsync(NavigationPage nextPage, CancellationToken cancellationToken);
 
-        public Task<DataResponse<List<Document>>> GetTenderDocumentsAsync(string Id);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<DataResponse<Tender>> GetTenderAsync(string Id, CancellationToken cancellationToken);
 
-        public Task<DataResponse<List<Contract>>> GetTenderContractsAsync(string Id);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<DataResponse<List<Document>>> GetTenderDocumentsAsync(string Id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<DataResponse<List<Contract>>> GetTenderContractsAsync(string Id, CancellationToken cancellationToken);
 
         /// <summary>
         /// Reading the tender documents list
@@ -33,6 +59,6 @@ namespace openprocurement.api.client
         /// <param name="offset"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public Task<DataResponse<List<Award>>> GetTenderAwardsAsync(string Id);
+        public Task<DataResponse<List<Award>>> GetTenderAwardsAsync(string Id, CancellationToken cancellationToken);
     }
 }
