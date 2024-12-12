@@ -23,7 +23,6 @@ namespace openprocurement_agent.Models
         }
     }
 
-
     public class GlobalSettings
     {
         public int Subtract { get; set; } = 12;
@@ -35,13 +34,14 @@ namespace openprocurement_agent.Models
         public TransformSettings_Status Status { get; set; }
         public TransformSettings_Identifier Identifier { get; set; }
         public TransformSettings_TendersHistory TendersHistory { get; set; }
-
+        public TransformSettings_Classification Classification { get; set; }
 
         public TransformSettings()
         {
             this.Status = new TransformSettings_Status();
             this.Identifier = new TransformSettings_Identifier();
             this.TendersHistory = new TransformSettings_TendersHistory();
+            this.Classification = new TransformSettings_Classification();
         }
     }
 
@@ -58,8 +58,14 @@ namespace openprocurement_agent.Models
     public class TransformSettings_Status
     {
         public bool Enabled { get; set; } = false;
-        public List<string> Allow { get; set; } = new List<string>();
+        public HashSet<string> Allow { get; set; } = new HashSet<string>();
+    }
 
+    public class TransformSettings_Classification
+    {
+        public bool Enabled { get; set; } = false;
+        public HashSet<string> Bypass { get; set; } = new HashSet<string>();
+        public HashSet<string> Block { get; set; } = new HashSet<string>();
     }
 
     public class ActionSettings
