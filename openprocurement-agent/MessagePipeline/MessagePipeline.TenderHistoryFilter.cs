@@ -1,35 +1,29 @@
-﻿using Microsoft.Extensions.Logging;
-using openprocurement.api.client.Models;
-using openprocurement_agent.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using openprocurement_agent.Services;
 using System.Threading.Tasks.Dataflow;
 
 namespace openprocurement_agent.MessagePipeline
 {
     public class TenderHistoryFilter
     {
-        static public TransformBlock<Tender, Tender>Create(
+        static public TransformBlock<MessageTender, MessageTender> Create(
             Models.TransformSettings_TendersHistory settings,
             Models.TenderHistoryDbContex databaseContex,
             Object dbLock,
             ILogger<OpenprocurementService> logger)
         {
-            return new TransformBlock<Tender, Tender>(message =>
+            return new TransformBlock<MessageTender, MessageTender>(message =>
             {
+                if (!settings.Enabled)
+                    return message;
+
                 try
                 {
-                    if (!settings.Enabled)
-                        return message;
-
-                    bool findInHistory = databaseContex.TenderHistory.Any(b => b.TenderId == message.TenderID);
-                    return (findInHistory ? null : message);
+                    bool isMatch = databaseContex.TenderHistory.Any(b => b.TenderId == message.Item.TenderID);
+                    message.Status = isMatch ? MessageTenderStatus.NullTarget : MessageTenderStatus.NextTarget;
                 } 
                 catch(Exception e)
                 {
-                    logger.LogError($"TenderHistoryFilter - { e.Message }");
+                    logger.LogError($"TenderHistoryFilter error with messages { e.Message }");
                 }
 
                 return message;

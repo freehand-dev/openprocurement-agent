@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net;
-using System.Net.Mail;
-using System.Text;
+﻿using System.Net.Mail;
 using System.Threading.Tasks.Dataflow;
-using Microsoft.Extensions.Logging;
-using openprocurement.api.client.Models;
 using openprocurement_agent.Models;
 using openprocurement_agent.Services;
 
@@ -14,17 +7,17 @@ namespace openprocurement_agent.MessagePipeline
 {
     public class ExchangeAction
     {
-        static public ActionBlock<Tender> Create(
+        static public ActionBlock<MessageTender> Create(
             ActionSetting_SendMail settings,
             ILogger<OpenprocurementService> logger)
         {
-            return new ActionBlock<Tender>(delegate (Tender message)
+            return new ActionBlock<MessageTender>(delegate (MessageTender message)
             {
+                if (!settings.Enabled)
+                    return;
+
                 try
                 {
-                    if (!settings.Enabled)
-                        return;
-
                     // send mail
                     System.Net.Mail.MailMessage mailMessage = new System.Net.Mail.MailMessage();
                     mailMessage.From = new MailAddress(settings.From);
@@ -32,7 +25,7 @@ namespace openprocurement_agent.MessagePipeline
                         mailMessage.To.Add(mailTo);
                     mailMessage.Subject = StringTemplate.ToString(settings.Subject, message).Replace('\r', ' ').Replace('\n', ' ');
                     mailMessage.IsBodyHtml = true;
-                    string body = message.ToHTML().ToString();
+                    string body = message.Item.ToHTML().ToString();
 
                     if (!String.IsNullOrWhiteSpace(settings.MessageTemplateFile))
                     {
@@ -41,7 +34,7 @@ namespace openprocurement_agent.MessagePipeline
                             body = System.IO.File.ReadAllText(settings.MessageTemplateFile);
                             if (!String.IsNullOrWhiteSpace(body))
                             {
-                                body = body.Replace("%body%", message.ToHTMLBody().ToString());
+                                body = body.Replace("%body%", message.Item.ToHTMLBody().ToString());
                                 body = StringTemplate.ToString(body, message);
                             }           
                         }
@@ -58,13 +51,13 @@ namespace openprocurement_agent.MessagePipeline
                     }
 
 
-                    logger.LogInformation($"Information about a Tender sent successfully [{ message.Id }][{message.DateModified:o}][{ message.Status }] { message.Title }");
+                    logger.LogInformation($"Information about a Tender sent successfully [{ message.Item.Id }][{message.Item.DateModified:o}][{ message.Status }] { message.Item.Title }");
                 }
                 catch (Exception e)
                 {
-                    logger.LogError($"ExchangeAction - { e.Message }");
+                    logger.LogError($"ExchangeAction error with messages { e.Message }");
                 }
-                
+ 
             });
         }
 
