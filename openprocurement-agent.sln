@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.12.35521.163
+# Visual Studio Version 18
+VisualStudioVersion = 18.7.11919.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "openprocurement-agent", "openprocurement-agent\openprocurement-agent.csproj", "{93EA9324-8124-44D8-A2F4-4CFAFA90367F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "openprocurement-agent", "src\openprocurement-agent\openprocurement-agent.csproj", "{93EA9324-8124-44D8-A2F4-4CFAFA90367F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "openprocurement.api.client", "openprocurement.api.client\openprocurement.api.client.csproj", "{819CEE65-92F2-4C81-8180-17C9222AAECF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTestProject", "XUnitTestProject\XUnitTestProject.csproj", "{858CA8DF-F26E-4948-BA5A-C1B2EFA06243}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "openprocurement.api.client", "src\openprocurement.api.client\openprocurement.api.client.csproj", "{819CEE65-92F2-4C81-8180-17C9222AAECF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A6DA822E-7C89-4D33-BA8C-C9FB3CBA22CC}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,6 +13,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Dockerfile = Dockerfile
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C131AD4A-2AB9-43A7-AFFE-C2F5CA51BB22}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{CAB2644E-C800-4E70-99C7-14A34E934F43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "openprocurement-mcp", "src\openprocurement-mcp\openprocurement-mcp.csproj", "{5C5FC315-30EF-7D62-ABC0-E3256F5BBB42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "test\TestProject\TestProject.csproj", "{23EC39C8-C429-4801-AB64-3CEB8B59224F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,13 +36,23 @@ Global
 		{819CEE65-92F2-4C81-8180-17C9222AAECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{819CEE65-92F2-4C81-8180-17C9222AAECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{819CEE65-92F2-4C81-8180-17C9222AAECF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{858CA8DF-F26E-4948-BA5A-C1B2EFA06243}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{858CA8DF-F26E-4948-BA5A-C1B2EFA06243}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{858CA8DF-F26E-4948-BA5A-C1B2EFA06243}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{858CA8DF-F26E-4948-BA5A-C1B2EFA06243}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C5FC315-30EF-7D62-ABC0-E3256F5BBB42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C5FC315-30EF-7D62-ABC0-E3256F5BBB42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C5FC315-30EF-7D62-ABC0-E3256F5BBB42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C5FC315-30EF-7D62-ABC0-E3256F5BBB42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23EC39C8-C429-4801-AB64-3CEB8B59224F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23EC39C8-C429-4801-AB64-3CEB8B59224F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23EC39C8-C429-4801-AB64-3CEB8B59224F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23EC39C8-C429-4801-AB64-3CEB8B59224F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{93EA9324-8124-44D8-A2F4-4CFAFA90367F} = {C131AD4A-2AB9-43A7-AFFE-C2F5CA51BB22}
+		{819CEE65-92F2-4C81-8180-17C9222AAECF} = {C131AD4A-2AB9-43A7-AFFE-C2F5CA51BB22}
+		{5C5FC315-30EF-7D62-ABC0-E3256F5BBB42} = {C131AD4A-2AB9-43A7-AFFE-C2F5CA51BB22}
+		{23EC39C8-C429-4801-AB64-3CEB8B59224F} = {CAB2644E-C800-4E70-99C7-14A34E934F43}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1F179EEB-E06D-45D9-9926-FC5FB5B495B3}

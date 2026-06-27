@@ -1,0 +1,39 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core Launch (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/OvenMultiviewer/bin/Debug/net10.0/OvenMultiviewer.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/OvenMultiviewer",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ConnectionStrings__DefaultConnection": "Data Source=${workspaceFolder}/runtime/app.db",
+                "Kestrel__Endpoints__Http__Url": "http://localhost:5000",
+                "DataProtection__KeyPath": "${workspaceFolder}/runtime/keys",
+                "OvenMediaEngine__Host": "localhost",
+                "OvenMediaEngine__API__Endpoint": "http://localhost:8082",
+                "OvenMediaEngine__API__AccessToken": "dev_token",
+                "OvenMediaEngine__API__VirtualHost": "default",
+                "OvenMediaEngine__API__ApplicationName": "app",
+                "OvenMediaEngine__API__StreamName": "stream"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        }
+    ]
+}

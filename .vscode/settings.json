@@ -1,0 +1,93 @@
+{
+    // Format on save settings
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": false,
+    // C# formatting (uses C# DevKit formatter)
+    "[csharp]": {
+        "editor.defaultFormatter": "ms-dotnettools.csharp",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    },
+    // Razor/CSHTML formatting
+    "[razor]": {
+        "editor.defaultFormatter": "ms-dotnettools.csharp",
+        "editor.formatOnSave": true
+    },
+    "[aspnetcorerazor]": {
+        "editor.defaultFormatter": "ms-dotnettools.csharp",
+        "editor.formatOnSave": true
+    },
+    // JavaScript/TypeScript formatting (uses VS Code built-in)
+    "[javascript]": {
+        "editor.formatOnSave": true
+    },
+    "[typescript]": {
+        "editor.formatOnSave": true
+    },
+    // JSON formatting (uses VS Code built-in)
+    "[json]": {
+        "editor.formatOnSave": true
+    },
+    "[jsonc]": {
+        "editor.formatOnSave": true
+    },
+    // CSS/SCSS formatting (uses VS Code built-in)
+    "[css]": {
+        "editor.formatOnSave": true
+    },
+    "[scss]": {
+        "editor.formatOnSave": true
+    },
+    // HTML formatting (uses VS Code built-in)
+    "[html]": {
+        "editor.formatOnSave": true
+    },
+    // Markdown formatting
+    "[markdown]": {
+        "editor.formatOnSave": false,
+        "editor.wordWrap": "on"
+    },
+    // C# specific settings
+    "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
+    "dotnet.navigation.navigateToDecompiledSources": true,
+    "omnisharp.enableEditorConfigSupport": true,
+    "omnisharp.enableRoslynAnalyzers": true,
+    // Files settings
+    "files.exclude": {
+        "**/bin": true,
+        "**/obj": true,
+        "**/.vs": true
+    },
+    "files.watcherExclude": {
+        "**/bin/**": true,
+        "**/obj/**": true,
+        "**/node_modules/**": true
+    },
+    // Terminal environment variables
+    "terminal.integrated.env.windows": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__DefaultConnection": "Data Source=${workspaceFolder}/runtime/app.db",
+        "Kestrel__Endpoints__Http__Url": "http://localhost:5000",
+        "DataProtection__KeyPath": "${workspaceFolder}/runtime/keys",
+        "OvenMediaEngine__Host": "localhost",
+        "OvenMediaEngine__API__Endpoint": "http://localhost:8082",
+        "OvenMediaEngine__API__AccessToken": "dev_token",
+        "OvenMediaEngine__API__VirtualHost": "default",
+        "OvenMediaEngine__API__ApplicationName": "app",
+        "OvenMediaEngine__API__StreamName": "stream"
+    },
+    "terminal.integrated.env.linux": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__DefaultConnection": "Data Source=${workspaceFolder}/runtime/app.db",
+        "Kestrel__Endpoints__Http__Url": "http://localhost:5050",
+        "DataProtection__KeyPath": "${workspaceFolder}/runtime/keys",
+        "OvenMediaEngine__Host": "media.darkdef.ai",
+        "OvenMediaEngine__API__Endpoint": "http://media.darkdef.ai:8081",
+        "OvenMediaEngine__API__AccessToken": "HaWD6jG3z0yVgjeESEW2RGzVHg7417Yb",
+        "OvenMediaEngine__API__VirtualHost": "default",
+        "OvenMediaEngine__API__ApplicationName": "app",
+        "OvenMediaEngine__API__StreamName": "stream"
+    }
+}

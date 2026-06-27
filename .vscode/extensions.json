@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.vscode-dotnet-runtime",
+        "formulahendry.dotnet-test-explorer",
+        "kreativ-software.csharpextensions",
+        "github.copilot-chat",
+        "fill-labs.dependi"
+    ]
+}
