@@ -1,0 +1,68 @@
+{
+    // Format on save settings
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": false,
+    // C# formatting (uses C# DevKit formatter)
+    "[csharp]": {
+        "editor.defaultFormatter": "ms-dotnettools.csharp",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    },
+    // Razor/CSHTML formatting
+    "[razor]": {
+        "editor.defaultFormatter": "ms-dotnettools.csharp",
+        "editor.formatOnSave": true
+    },
+    "[aspnetcorerazor]": {
+        "editor.defaultFormatter": "ms-dotnettools.csharp",
+        "editor.formatOnSave": true
+    },
+    // JavaScript/TypeScript formatting (uses VS Code built-in)
+    "[javascript]": {
+        "editor.formatOnSave": true
+    },
+    "[typescript]": {
+        "editor.formatOnSave": true
+    },
+    // JSON formatting (uses VS Code built-in)
+    "[json]": {
+        "editor.formatOnSave": true
+    },
+    "[jsonc]": {
+        "editor.formatOnSave": true
+    },
+    // CSS/SCSS formatting (uses VS Code built-in)
+    "[css]": {
+        "editor.formatOnSave": true
+    },
+    "[scss]": {
+        "editor.formatOnSave": true
+    },
+    // HTML formatting (uses VS Code built-in)
+    "[html]": {
+        "editor.formatOnSave": true
+    },
+    // Markdown formatting
+    "[markdown]": {
+        "editor.formatOnSave": false,
+        "editor.wordWrap": "on"
+    },
+    // C# specific settings
+    "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
+    "dotnet.navigation.navigateToDecompiledSources": true,
+    "omnisharp.enableEditorConfigSupport": true,
+    "omnisharp.enableRoslynAnalyzers": true,
+    // Files settings
+    "files.exclude": {
+        "**/bin": true,
+        "**/obj": true,
+        "**/.vs": true
+    },
+    "files.watcherExclude": {
+        "**/bin/**": true,
+        "**/obj/**": true,
+        "**/node_modules/**": true
+    }
+}

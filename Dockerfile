@@ -8,7 +8,7 @@ RUN dotnet restore
 RUN dotnet build -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish --runtime linux-x64 --output /app/publish -c Release "./openprocurement-agent/openprocurement-agent.csproj"
+RUN dotnet publish --runtime linux-x64 --output /app/publish -c Release "./src/openprocurement-agent/openprocurement-agent.csproj"
 
 FROM base AS final
 ENV TZ=Europe/Kiev
