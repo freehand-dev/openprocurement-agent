@@ -83,7 +83,7 @@ namespace TestProject
 
             var x = await client.GetTenderAsync("b6c1b8c0c2074bc8b9380cff823ee8e3", CancellationToken.None);
 
-            var html = x.Data.ToHTML();
+            var html = x.Data.ToHtml();
         }
 
         [Fact]
@@ -100,7 +100,7 @@ namespace TestProject
             var body = System.IO.File.ReadAllText("message.html");
             if (!String.IsNullOrEmpty(body))
             {
-                body = body.Replace("%body%", message.ToHTMLBody().ToString());
+                body = body.Replace("%body%", message.ToHtmlBody().ToString());
                 body = StringTemplate.ToString(body, message);
             }
         }
@@ -138,7 +138,7 @@ namespace TestProject
 
             mailMessage.To.Add(MailTo);
 
-            string body = message.ToHTML().ToString();
+            string body = message.ToHtml().ToString();
 
             if (!String.IsNullOrWhiteSpace(MessageTemplateFile))
             {
@@ -147,7 +147,7 @@ namespace TestProject
                     body = System.IO.File.ReadAllText(MessageTemplateFile);
                     if (!String.IsNullOrWhiteSpace(body))
                     {
-                        body = body.Replace("%body%", message.ToHTMLBody().ToString());
+                        body = body.Replace("%body%", message.ToHtmlBody().ToString());
                         body = StringTemplate.ToString(body, message);
                     }
                 }

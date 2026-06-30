@@ -25,7 +25,7 @@ namespace openprocurement_agent.MessagePipeline
                         mailMessage.To.Add(mailTo);
                     mailMessage.Subject = StringTemplate.ToString(settings.Subject, message).Replace('\r', ' ').Replace('\n', ' ');
                     mailMessage.IsBodyHtml = true;
-                    string body = message.Item.ToHTML().ToString();
+                    string body = message.Item.ToHtml().ToString();
 
                     if (!String.IsNullOrWhiteSpace(settings.MessageTemplateFile))
                     {
@@ -34,7 +34,7 @@ namespace openprocurement_agent.MessagePipeline
                             body = System.IO.File.ReadAllText(settings.MessageTemplateFile);
                             if (!String.IsNullOrWhiteSpace(body))
                             {
-                                body = body.Replace("%body%", message.Item.ToHTMLBody().ToString());
+                                body = body.Replace("%body%", message.Item.ToHtmlBody().ToString());
                                 body = StringTemplate.ToString(body, message);
                             }
                         }
