@@ -16,6 +16,12 @@ namespace openprocurement_agent.MessagePipeline
                 if (!settings.Enabled)
                     return;
 
+                if (message.Item == null)
+                {
+                    logger.LogWarning($"ExchangeAction: message.Item is null [{message.Status}]");
+                    return;
+                }
+
                 try
                 {
                     // send mail
@@ -35,7 +41,7 @@ namespace openprocurement_agent.MessagePipeline
                             if (!String.IsNullOrWhiteSpace(body))
                             {
                                 body = body.Replace("%body%", message.Item.ToHtmlBody().ToString());
-                                body = StringTemplate.ToString(body, message);
+                                body = StringTemplate.ToString(body, message.Item);
                             }
                         }
                     }
