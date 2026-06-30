@@ -23,7 +23,7 @@ namespace openprocurement_agent.MessagePipeline
                     mailMessage.From = new MailAddress(settings.From);
                     foreach (string mailTo in settings.MailTo)
                         mailMessage.To.Add(mailTo);
-                    mailMessage.Subject = StringTemplate.ToString(settings.Subject, message).Replace('\r', ' ').Replace('\n', ' ');
+                    mailMessage.Subject = StringTemplate.ToString(settings.Subject, message.Item).Replace('\r', ' ').Replace('\n', ' ');
                     mailMessage.IsBodyHtml = true;
                     string body = message.Item.ToHtml().ToString();
 
