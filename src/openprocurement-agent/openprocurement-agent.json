@@ -1,0 +1,25 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "Kestrel": {
+    "Endpoints": {
+      "Http": {
+        "Url": "http://*:5000"
+      }
+    }
+  },
+  "AllowedHosts": "*",
+  "HttpsRedirection": false,
+  "DataProtection": {
+    "KeyPath": ""
+  },
+  "ConnectionStrings": {
+    "SettingsConnection": "Data Source=Settings.db",
+    "ProcuringEntityConnection": "Data Source=ProcuringEntity.db",
+    "TenderHistoryConnection": "Data Source=TenderHistory.db"
+  }
+}

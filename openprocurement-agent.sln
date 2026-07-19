@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.7.11919.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "openprocurement-agent", "src\openprocurement-agent\openprocurement-agent.csproj", "{93EA9324-8124-44D8-A2F4-4CFAFA90367F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "openprocurement.api.client", "src\openprocurement.api.client\openprocurement.api.client.csproj", "{819CEE65-92F2-4C81-8180-17C9222AAECF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A6DA822E-7C89-4D33-BA8C-C9FB3CBA22CC}"
@@ -20,16 +18,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "test\TestPro
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3CF37D99-A71D-4B5F-9069-9580776981D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "openprocurement-agent", "src\openprocurement-agent\openprocurement-agent.csproj", "{A208ADC3-9D05-4EEF-B586-93180595C51E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{93EA9324-8124-44D8-A2F4-4CFAFA90367F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93EA9324-8124-44D8-A2F4-4CFAFA90367F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93EA9324-8124-44D8-A2F4-4CFAFA90367F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93EA9324-8124-44D8-A2F4-4CFAFA90367F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{819CEE65-92F2-4C81-8180-17C9222AAECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{819CEE65-92F2-4C81-8180-17C9222AAECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{819CEE65-92F2-4C81-8180-17C9222AAECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -38,14 +34,18 @@ Global
 		{23EC39C8-C429-4801-AB64-3CEB8B59224F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23EC39C8-C429-4801-AB64-3CEB8B59224F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23EC39C8-C429-4801-AB64-3CEB8B59224F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A208ADC3-9D05-4EEF-B586-93180595C51E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A208ADC3-9D05-4EEF-B586-93180595C51E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A208ADC3-9D05-4EEF-B586-93180595C51E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A208ADC3-9D05-4EEF-B586-93180595C51E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{93EA9324-8124-44D8-A2F4-4CFAFA90367F} = {3CF37D99-A71D-4B5F-9069-9580776981D5}
 		{819CEE65-92F2-4C81-8180-17C9222AAECF} = {3CF37D99-A71D-4B5F-9069-9580776981D5}
 		{23EC39C8-C429-4801-AB64-3CEB8B59224F} = {CAB2644E-C800-4E70-99C7-14A34E934F43}
+		{A208ADC3-9D05-4EEF-B586-93180595C51E} = {3CF37D99-A71D-4B5F-9069-9580776981D5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1F179EEB-E06D-45D9-9926-FC5FB5B495B3}

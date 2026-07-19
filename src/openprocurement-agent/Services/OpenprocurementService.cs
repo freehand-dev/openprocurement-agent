@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Options;
 using openprocurement.api.client;
 using openprocurement.api.client.Models;
 using openprocurement_agent.MessagePipeline;
@@ -11,38 +10,37 @@ namespace openprocurement_agent.Services
         private readonly IOpenprocurementClient _client;
         private readonly ILogger<OpenprocurementService> _logger;
         private readonly IServiceProvider _serviceProvider;
-        private readonly AppSettings _settings;
-        private readonly Models.TenderHistoryDbContex _tenderHistoryDbContex;
-        private readonly Models.ProcuringEntityDbContex _procuringEntityDbContex;
+        private readonly Models.TenderHistoryDbContext _tenderHistoryDbContext;
+        private readonly Models.ProcuringEntityDbContext _procuringEntityDbContext;
+        private readonly Models.PipelineSettingsDbContext _pipelineSettingsDbContext;
 
         private IMessagePipeline _pipeline;
 
         public OpenprocurementService(
             IOpenprocurementClient client,
             IServiceProvider serviceProvider,
-            IOptions<AppSettings> settings,
             ILogger<OpenprocurementService> logger)
         {
             this._client = client;
             this._logger = logger;
             this._serviceProvider = serviceProvider;
-            this._settings = settings.Value;
 
-            if (this._settings.Transform.Identifier.Enabled)
-                this._tenderHistoryDbContex = (Models.TenderHistoryDbContex)_serviceProvider.CreateScope().ServiceProvider.GetRequiredService(typeof(Models.TenderHistoryDbContex));
+            this._procuringEntityDbContext = (Models.ProcuringEntityDbContext)_serviceProvider.CreateScope().ServiceProvider.GetRequiredService(typeof(Models.ProcuringEntityDbContext));
+            this._tenderHistoryDbContext = (Models.TenderHistoryDbContext)_serviceProvider.CreateScope().ServiceProvider.GetRequiredService(typeof(Models.TenderHistoryDbContext));
+            this._pipelineSettingsDbContext = (Models.PipelineSettingsDbContext)_serviceProvider.CreateScope().ServiceProvider.GetRequiredService(typeof(Models.PipelineSettingsDbContext));
 
-            if (this._settings.Transform.TendersHistory.Enabled || this._settings.Action.TendersHistory.Enabled)
-                this._procuringEntityDbContex = (Models.ProcuringEntityDbContex)_serviceProvider.CreateScope().ServiceProvider.GetRequiredService(typeof(Models.ProcuringEntityDbContex));
+            // Seed pipeline (incl. mail action) settings defaults on first run
+            this._pipelineSettingsDbContext.SeedDefaults();
 
             // build message pipeline
-            _pipeline = new MessagePipeline.MessagePipeline(this._settings, this._tenderHistoryDbContex, this._procuringEntityDbContex, this._logger);
+            _pipeline = new MessagePipeline.MessagePipeline(this._tenderHistoryDbContext, this._procuringEntityDbContext, this._pipelineSettingsDbContext, this._logger);
         }
 
         public override void Dispose()
         {
-            _tenderHistoryDbContex?.Dispose();
+            _tenderHistoryDbContext?.Dispose();
 
-            _procuringEntityDbContex?.Dispose();
+            _procuringEntityDbContext?.Dispose();
         }
 
         public override async Task StartAsync(CancellationToken stoppingToken)
@@ -55,9 +53,11 @@ namespace openprocurement_agent.Services
         {
             try
             {
+                int subtractHours = this._pipelineSettingsDbContext.GlobalSettings.Find(1)?.Subtract ?? 1;
+
                 // Initial request to obtain tender data
                 TendersResponse response = await _client.GetTendersAsync(
-                    DateTimeOffset.UtcNow.Subtract(TimeSpan.FromHours(this._settings.Global.Subtract)), 100, stoppingToken);
+                    DateTimeOffset.UtcNow.Subtract(TimeSpan.FromHours(subtractHours)), 100, stoppingToken);
 
                 do
                 {

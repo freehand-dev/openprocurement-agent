@@ -1,0 +1,248 @@
+:root {
+  --brand: #4f46e5;
+  --brand-dark: #4338ca;
+  --brand-light: #eef2ff;
+  --surface: #ffffff;
+  --bg: #f4f6fb;
+  --border-soft: #e6e9f2;
+  --radius: 0.75rem;
+}
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--bg);
+  color: #212529;
+}
+
+/* ── Focus ring ── */
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.2);
+  border-color: var(--brand);
+}
+
+/* ── Navbar ── */
+.navbar.app-navbar {
+  background-color: var(--surface) !important;
+  border-bottom: 1px solid var(--border-soft);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+.app-navbar .navbar-brand {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #1f2937;
+}
+
+.brand-icon {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 0.6rem;
+  background: linear-gradient(135deg, var(--brand), #7c3aed);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.app-navbar .nav-link {
+  font-weight: 500;
+  color: #4b5563 !important;
+  border-radius: 0.5rem;
+  padding: 0.45rem 0.85rem !important;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.app-navbar .nav-link:hover {
+  background-color: var(--brand-light);
+  color: var(--brand-dark) !important;
+}
+
+.app-navbar .nav-link.active-nav {
+  background-color: var(--brand-light);
+  color: var(--brand-dark) !important;
+  font-weight: 600;
+  border-bottom: none;
+}
+
+/* ── Page header ── */
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.page-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0;
+  letter-spacing: -0.01em;
+}
+
+.page-header .page-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.65rem;
+  background: var(--brand-light);
+  color: var(--brand);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* ── Cards ── */
+.card {
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.06) !important;
+}
+
+.card-header {
+  border-top-left-radius: var(--radius) !important;
+  border-top-right-radius: var(--radius) !important;
+  border-bottom: 1px solid var(--border-soft);
+  background-color: var(--surface) !important;
+  padding: 0.9rem 1.1rem;
+}
+
+.card-footer {
+  border-bottom-left-radius: var(--radius) !important;
+  border-bottom-right-radius: var(--radius) !important;
+  border-top: 1px solid var(--border-soft);
+  background-color: var(--surface) !important;
+}
+
+.hover-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.hover-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0.5rem 1.25rem rgba(16, 24, 40, 0.1) !important;
+}
+
+/* ── Buttons ── */
+.btn {
+  border-radius: 0.55rem;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: var(--brand);
+  border-color: var(--brand);
+}
+
+.btn-primary:hover,
+.btn-primary:active {
+  background-color: var(--brand-dark) !important;
+  border-color: var(--brand-dark) !important;
+}
+
+.btn-outline-primary {
+  color: var(--brand);
+  border-color: var(--brand);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--brand);
+  border-color: var(--brand);
+}
+
+/* ── Forms ── */
+.form-control,
+.form-select {
+  border-radius: 0.5rem;
+  border-color: var(--border-soft);
+}
+
+.form-control-sm,
+.form-select-sm {
+  border-radius: 0.45rem;
+}
+
+.form-switch .form-check-input:checked {
+  background-color: var(--brand);
+  border-color: var(--brand);
+}
+
+/* ── Tables ── */
+.table> :not(caption)>*>* {
+  padding: 0.65rem 0.9rem;
+}
+
+.table thead th {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #6b7280;
+  font-weight: 600;
+  border-bottom-width: 1px;
+}
+
+.table-hover>tbody>tr:hover>* {
+  background-color: var(--brand-light);
+}
+
+/* ── Badges / code ── */
+code {
+  background-color: #f1f3f9;
+  color: #4338ca;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.35rem;
+  font-size: 0.85em;
+}
+
+/* ── Pagination ── */
+.pagination .page-link {
+  border-radius: 0.45rem;
+  margin: 0 0.15rem;
+  color: #4b5563;
+  border: 1px solid var(--border-soft);
+}
+
+.pagination .page-item.active .page-link {
+  background-color: var(--brand);
+  border-color: var(--brand);
+}
+
+/* ── Footer ── */
+.app-footer {
+  border-top: 1px solid var(--border-soft);
+  background-color: var(--surface);
+  color: #9ca3af;
+  font-size: 0.85rem;
+}
+
+/* ── Misc ── */
+.form-floating>.form-control-plaintext::placeholder,
+.form-floating>.form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating>.form-control-plaintext:focus::placeholder,
+.form-floating>.form-control:focus::placeholder {
+  text-align: start;
+}

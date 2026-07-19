@@ -19,30 +19,30 @@ namespace openprocurement_agent.MessagePipeline
         public BufferBlock<MessageTender> BufferBlock { get; } = new BufferBlock<MessageTender>();
 
         public MessagePipeline(
-            Models.AppSettings settings,
-            Models.TenderHistoryDbContex tenderHistoryDbContex,
-            Models.ProcuringEntityDbContex procuringEntityDbContex,
+            Models.TenderHistoryDbContext? tenderHistoryDbContext,
+            Models.ProcuringEntityDbContext? procuringEntityDbContext,
+            Models.PipelineSettingsDbContext pipelineSettingsDbContext,
             ILogger<OpenprocurementService> logger)
         {
             // ExchangeAction
-            var exchangeAction = ExchangeAction.Create(settings.Action.SendMail, logger);
+            var exchangeAction = ExchangeAction.Create(pipelineSettingsDbContext, _dbLock, logger);
 
             // TenderHistoryAction
-            var tenderHistoryAction = TenderHistoryAction.Create(settings.Action.TendersHistory, tenderHistoryDbContex, _dbLock, logger);
+            var tenderHistoryAction = TenderHistoryAction.Create(pipelineSettingsDbContext, tenderHistoryDbContext, _dbLock, logger);
 
             var broadcastBlock = new BroadcastBlock<MessageTender>(msg => msg);
 
             // StatusFilter
-            var statusFilter = StatusFilter.Create(settings.Transform.Status, logger);
+            var statusFilter = StatusFilter.Create(pipelineSettingsDbContext, _dbLock, logger);
 
             // TenderHistoryFilter
-            var tenderHistoryFilter = TenderHistoryFilter.Create(settings.Transform.TendersHistory, tenderHistoryDbContex, _dbLock, logger);
+            var tenderHistoryFilter = TenderHistoryFilter.Create(pipelineSettingsDbContext, tenderHistoryDbContext, _dbLock, logger);
 
             // IdentifierFilter
-            var identifierFilter = IdentifierFilter.Create(settings.Transform.Identifier, procuringEntityDbContex, _dbLock, logger);
+            var identifierFilter = IdentifierFilter.Create(pipelineSettingsDbContext, procuringEntityDbContext, _dbLock, logger);
 
             // ClassificationFilter
-            var classificationFilter = ClassificationFilter.Create(settings.Transform.Classification, logger);
+            var classificationFilter = ClassificationFilter.Create(pipelineSettingsDbContext, _dbLock, logger);
 
             // BufferBlock - StatusFilter
             BufferBlock.LinkTo(statusFilter, linkOptions, message => message != null);

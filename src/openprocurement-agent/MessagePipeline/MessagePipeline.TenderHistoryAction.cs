@@ -1,5 +1,6 @@
-﻿using openprocurement_agent.Models;
+using openprocurement_agent.Models;
 using openprocurement_agent.Services;
+using System.Linq;
 using System.Threading.Tasks.Dataflow;
 
 namespace openprocurement_agent.MessagePipeline
@@ -7,20 +8,24 @@ namespace openprocurement_agent.MessagePipeline
     public class TenderHistoryAction
     {
         static public ActionBlock<MessageTender> Create(
-            Models.ActionSetting_TendersHistory settings,
-            Models.TenderHistoryDbContex databaseContex,
+            Models.PipelineSettingsDbContext pipelineSettingsDbContext,
+            Models.TenderHistoryDbContext? databaseContext,
             Object dbLock,
             ILogger<OpenprocurementService> logger)
         {
             return new ActionBlock<MessageTender>(delegate (MessageTender message)
             {
-                if (!settings.Enabled)
-                    return;
-
                 try
                 {
-                    databaseContex.Add(new TenderHistory { TenderId = message.Item.TenderID });
-                    databaseContex.SaveChanges();
+                    lock (dbLock)
+                    {
+                        var settings = pipelineSettingsDbContext.TendersHistoryActionSettings.Find(1);
+                        if (settings == null || !settings.Enabled || databaseContext == null)
+                            return;
+
+                        databaseContext.Add(new TenderHistory { TenderId = message.Item!.TenderID, Title = message.Item!.Title, CreatedDate = DateTime.UtcNow });
+                        databaseContext.SaveChanges();
+                    }
                 }
                 catch (Exception e)
                 {

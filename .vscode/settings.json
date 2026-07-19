@@ -64,5 +64,22 @@
         "**/bin/**": true,
         "**/obj/**": true,
         "**/node_modules/**": true
+    },
+    // Terminal environment variables
+    "terminal.integrated.env.windows": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__SettingsConnection": "Data Source=${workspaceFolder}/runtime/Settings.db",
+        "ConnectionStrings__ProcuringEntityConnection": "Data Source=${workspaceFolder}/runtime/ProcuringEntity.db",
+        "ConnectionStrings__TenderHistoryConnection": "Data Source=${workspaceFolder}/runtime/TenderHistory.db",
+        "Kestrel__Endpoints__Http__Url": "http://localhost:5050",
+        "DataProtection__KeyPath": "${workspaceFolder}/runtime/keys",
+    },
+    "terminal.integrated.env.linux": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__SettingsConnection": "Data Source=${workspaceFolder}/runtime/Settings.db",
+        "ConnectionStrings__ProcuringEntityConnection": "Data Source=${workspaceFolder}/runtime/ProcuringEntity.db",
+        "ConnectionStrings__TenderHistoryConnection": "Data Source=${workspaceFolder}/runtime/TenderHistory.db",
+        "Kestrel__Endpoints__Http__Url": "http://localhost:5050",
+        "DataProtection__KeyPath": "${workspaceFolder}/runtime/keys"
     }
 }

@@ -8,13 +8,12 @@ namespace openprocurement_agent.MessagePipeline
     public class ExchangeAction
     {
         static public ActionBlock<MessageTender> Create(
-            ActionSetting_SendMail settings,
+            PipelineSettingsDbContext pipelineDb,
+            Object dbLock,
             ILogger<OpenprocurementService> logger)
         {
             return new ActionBlock<MessageTender>(delegate (MessageTender message)
             {
-                if (!settings.Enabled)
-                    return;
 
                 if (message.Item == null)
                 {
@@ -24,35 +23,51 @@ namespace openprocurement_agent.MessagePipeline
 
                 try
                 {
+                    // Read mail settings from DB
+                    MailSettings? mailSettings;
+                    lock (dbLock)
+                    {
+                        mailSettings = pipelineDb.MailSettings.Find(1);
+                    }
+                    if (mailSettings == null || !mailSettings.Enabled)
+                        return;
+
+                    // Parse MailTo (one per line)
+                    var recipients = mailSettings.MailTo
+                        .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(s => s.Trim())
+                        .Where(s => !string.IsNullOrEmpty(s))
+                        .ToList();
+
+                    if (recipients.Count == 0)
+                    {
+                        logger.LogWarning("ExchangeAction: no recipients configured");
+                        return;
+                    }
+
                     // send mail
                     System.Net.Mail.MailMessage mailMessage = new System.Net.Mail.MailMessage();
-                    mailMessage.From = new MailAddress(settings.From);
-                    foreach (string mailTo in settings.MailTo)
+                    mailMessage.From = new MailAddress(mailSettings.From);
+                    foreach (string mailTo in recipients)
                         mailMessage.To.Add(mailTo);
-                    mailMessage.Subject = StringTemplate.ToString(settings.Subject, message.Item).Replace('\r', ' ').Replace('\n', ' ');
+                    mailMessage.Subject = StringTemplate.ToString(mailSettings.Subject, message.Item).Replace('\r', ' ').Replace('\n', ' ');
                     mailMessage.IsBodyHtml = true;
                     string body = message.Item.ToHtml().ToString();
 
-                    if (!String.IsNullOrWhiteSpace(settings.MessageTemplateFile))
+                    if (!String.IsNullOrWhiteSpace(mailSettings.MessageTemplate))
                     {
-                        if (System.IO.File.Exists(settings.MessageTemplateFile))
-                        {
-                            body = System.IO.File.ReadAllText(settings.MessageTemplateFile);
-                            if (!String.IsNullOrWhiteSpace(body))
-                            {
-                                body = body.Replace("%body%", message.Item.ToHtmlBody().ToString());
-                                body = StringTemplate.ToString(body, message.Item);
-                            }
-                        }
+                        body = mailSettings.MessageTemplate;
+                        body = body.Replace("%body%", message.Item.ToHtmlBody().ToString());
+                        body = StringTemplate.ToString(body, message.Item);
                     }
 
                     mailMessage.Body = body;
 
-                    using (System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient(settings.Server))
+                    using (System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient(mailSettings.Server))
                     {
-                        client.Credentials = new System.Net.NetworkCredential(settings.Username, settings.Password);
-                        client.Port = settings.Port;
-                        client.EnableSsl = settings.EnableSsl;
+                        client.Credentials = new System.Net.NetworkCredential(mailSettings.Username, mailSettings.Password);
+                        client.Port = mailSettings.Port;
+                        client.EnableSsl = mailSettings.EnableSsl;
                         client.Send(mailMessage);
                     }
 

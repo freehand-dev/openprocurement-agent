@@ -1,0 +1,282 @@
+@page
+@model ProcuringEntityModel
+@{
+    ViewData["Title"] = "Procuring Entity";
+}
+
+@Html.AntiForgeryToken()
+
+<div class="d-flex flex-column">
+    <div class="page-header">
+        <span class="page-icon"><i class="bi bi-building"></i></span>
+        <h1>Procuring Entity</h1>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="row m-0">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h5 class="card-title mb-0">Записи (@Model.TotalCount)</h5>
+                    <div class="d-flex gap-1">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="openAddModal()">
+                            <i class="bi bi-plus-lg"></i> Додати
+                        </button>
+                        <button type="button" class="btn btn-outline-info btn-sm"
+                                onclick="document.getElementById('csvImportInput').click()" title="Імпорт CSV">
+                            <i class="bi bi-upload"></i> Імпорт
+                        </button>
+                        <form method="get" class="d-flex gap-1">
+                            <input type="text" name="SearchCode" value="@Model.SearchCode"
+                                   class="form-control form-control-sm" placeholder="Пошук..." style="width: 180px;" />
+                            <button type="submit" class="btn btn-outline-primary btn-sm">Шукати</button>
+                            @if (!string.IsNullOrEmpty(Model.SearchCode))
+                            {
+                                <a asp-page="./ProcuringEntity" class="btn btn-outline-secondary btn-sm">Скинути</a>
+                            }
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    @if (Model.Entities.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0 align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th style="width: 140px;">Код</th>
+                                        <th>Назва</th>
+                                        <th>Юр. назва</th>
+                                        <th>Адреса</th>
+                                        <th class="text-end" style="width: 80px;">Дії</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Entities)
+                                    {
+                                        <tr>
+                                            <td><code>@item.Code</code></td>
+                                            <td>@item.Name</td>
+                                            <td>@item.LegalName</td>
+                                            <td class="text-muted small">@item.Addreess</td>
+                                            <td class="text-end">
+                                                <div class="btn-group btn-group-sm">
+                                                    <button type="button" class="btn btn-outline-warning btn-sm"
+                                                            onclick="openEditModal('@item.Code', '@item.Name', '@item.LegalName', '@item.Addreess')"
+                                                            title="Редагувати">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-danger btn-sm" title="Видалити"
+                                                            onclick="deleteEntity('@item.Code')">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center text-muted py-4">
+                            <p class="mb-0">Записів не знайдено.</p>
+                        </div>
+                    }
+                </div>
+                @* Pagination *@
+                @if (Model.TotalPages > 1)
+                {
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted small">Сторінка @Model.CurrentPage з @Model.TotalPages</span>
+                            <nav>
+                                <ul class="pagination pagination-sm mb-0">
+                                    <li class="page-item @(Model.CurrentPage <= 1 ? "disabled" : "")">
+                                        <a class="page-link" asp-page="./ProcuringEntity"
+                                           asp-route-SearchCode="@Model.SearchCode"
+                                           asp-route-PageNumber="@(Model.CurrentPage - 1)">&laquo;</a>
+                                    </li>
+                                    @{
+                                        int start = Math.Max(1, Model.CurrentPage - 2);
+                                        int end = Math.Min(Model.TotalPages, Model.CurrentPage + 2);
+                                    }
+                                    @for (int i = start; i <= end; i++)
+                                    {
+                                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                                            <a class="page-link" asp-page="./ProcuringEntity"
+                                               asp-route-SearchCode="@Model.SearchCode" asp-route-PageNumber="@i">@i</a>
+                                        </li>
+                                    }
+                                    <li class="page-item @(Model.CurrentPage >= Model.TotalPages ? "disabled" : "")">
+                                        <a class="page-link" asp-page="./ProcuringEntity"
+                                           asp-route-SearchCode="@Model.SearchCode"
+                                           asp-route-PageNumber="@(Model.CurrentPage + 1)">&raquo;</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@* ── CSV Import: hidden form ── *@
+<form method="post" enctype="multipart/form-data" id="csvImportForm" class="d-none" asp-page-handler="ImportCsv">
+    <input type="file" name="csvFile" id="csvImportInput" accept=".csv"
+           onchange="document.getElementById('csvImportForm').submit()" />
+</form>
+
+@* ── Modal: Add / Edit ── *@
+<div class="modal fade" id="entityModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form method="post" id="entityForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Додати запис</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <label class="form-label">Код <span class="text-danger">*</span></label>
+                        <input asp-for="FormEntity.Code" class="form-control form-control-sm"
+                               placeholder="Напр. 12345678" oninput="checkCodeExists()" />
+                        <span asp-validation-for="FormEntity.Code" class="text-danger small"></span>
+                        <div id="codeWarning" class="text-warning small mt-1 d-none">
+                            <i class="bi bi-exclamation-triangle-fill"></i> Запис з таким кодом вже існує
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Назва</label>
+                        <input asp-for="FormEntity.Name" class="form-control form-control-sm" />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Юридична назва</label>
+                        <input asp-for="FormEntity.LegalName" class="form-control form-control-sm" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Адреса</label>
+                        <input asp-for="FormEntity.Addreess" class="form-control form-control-sm" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                            data-bs-dismiss="modal">Скасувати</button>
+                    <button type="submit" id="btnAdd" asp-page-handler="Add"
+                            class="btn btn-primary btn-sm">Додати</button>
+                    <button type="submit" id="btnEdit" asp-page-handler="Edit"
+                            class="btn btn-warning btn-sm d-none">Зберегти зміни</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        var entityModal = new bootstrap.Modal(document.getElementById('entityModal'));
+        var codeCheckTimer = null;
+
+        function checkCodeExists() {
+            var code = document.getElementById('FormEntity_Code').value.trim();
+            var warning = document.getElementById('codeWarning');
+            var btnAdd = document.getElementById('btnAdd');
+
+            if (!code) {
+                warning.classList.add('d-none');
+                btnAdd.disabled = false;
+                return;
+            }
+
+            // Skip check in edit mode (code is readOnly)
+            if (document.getElementById('FormEntity_Code').readOnly) {
+                warning.classList.add('d-none');
+                btnAdd.disabled = false;
+                return;
+            }
+
+            clearTimeout(codeCheckTimer);
+            codeCheckTimer = setTimeout(function () {
+                fetch('?handler=CheckCode&code=' + encodeURIComponent(code))
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        if (data.exists) {
+                            warning.classList.remove('d-none');
+                            btnAdd.disabled = true;
+                        } else {
+                            warning.classList.add('d-none');
+                            btnAdd.disabled = false;
+                        }
+                    })
+                    .catch(function () {
+                        warning.classList.add('d-none');
+                        btnAdd.disabled = false;
+                    });
+            }, 300);
+        }
+
+        function openAddModal() {
+            document.getElementById('modalTitle').textContent = 'Додати запис';
+            document.getElementById('FormEntity_Code').value = '';
+            document.getElementById('FormEntity_Name').value = '';
+            document.getElementById('FormEntity_LegalName').value = '';
+            document.getElementById('FormEntity_Addreess').value = '';
+            document.getElementById('FormEntity_Code').readOnly = false;
+            document.getElementById('codeWarning').classList.add('d-none');
+            document.getElementById('btnAdd').disabled = false;
+            document.getElementById('btnAdd').classList.remove('d-none');
+            document.getElementById('btnEdit').classList.add('d-none');
+            entityModal.show();
+        }
+
+        function openEditModal(code, name, legalName, address) {
+            document.getElementById('modalTitle').textContent = 'Редагувати запис';
+            document.getElementById('FormEntity_Code').value = code;
+            document.getElementById('FormEntity_Name').value = name ?? '';
+            document.getElementById('FormEntity_LegalName').value = legalName ?? '';
+            document.getElementById('FormEntity_Addreess').value = address ?? '';
+            document.getElementById('FormEntity_Code').readOnly = true;
+            document.getElementById('codeWarning').classList.add('d-none');
+            document.getElementById('btnAdd').disabled = false;
+            document.getElementById('btnAdd').classList.add('d-none');
+            document.getElementById('btnEdit').classList.remove('d-none');
+            entityModal.show();
+        }
+
+        function deleteEntity(code) {
+            if (!confirm('Видалити запис ' + code + '?')) return;
+
+            var token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+            fetch('?handler=Delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': token
+                },
+                body: 'code=' + encodeURIComponent(code)
+            }).then(function () {
+                window.location.reload();
+            }).catch(function (err) {
+                alert('Помилка видалення: ' + err.message);
+            });
+        }
+    </script>
+}

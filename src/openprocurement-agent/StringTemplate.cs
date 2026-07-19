@@ -57,7 +57,7 @@ namespace openprocurement_agent
 
                     case '%':
                         var propValue = StringTemplate.GetPropertyValue(Object, Match.Groups[1].Value);
-                        return (propValue != null) ? propValue.ToString() : "%" + Match.Groups[1].Value + "%";
+                        return (propValue != null) ? propValue.ToString()! : "%" + Match.Groups[1].Value + "%";
                 }
 
                 return string.Empty;
@@ -65,40 +65,44 @@ namespace openprocurement_agent
         }
 
 
-        public static object GetPropertyValue(object src, string propName)
+        public static object? GetPropertyValue(object src, string propName)
         {
             if (src == null) throw new ArgumentNullException(nameof(src));
             if (string.IsNullOrWhiteSpace(propName)) throw new ArgumentException(nameof(propName));
 
+            object? current = src;
             foreach (string currentPropertyName in propName.Split('.'))
             {
                 if (string.IsNullOrWhiteSpace(currentPropertyName)) return default;
+                if (current == null) return default;
 
-                PropertyInfo propertyInfo = src.GetType().GetProperty(currentPropertyName);
+                PropertyInfo? propertyInfo = current.GetType().GetProperty(currentPropertyName);
                 if (propertyInfo == null) return default;
 
-                src = propertyInfo.GetValue(src);
+                current = propertyInfo.GetValue(current);
             }
 
-            return src;
+            return current;
         }
 
-        public static T GetPropertyValue<T>(object src, string propName)
+        public static T? GetPropertyValue<T>(object src, string propName)
         {
             if (src == null) throw new ArgumentNullException(nameof(src));
             if (string.IsNullOrWhiteSpace(propName)) throw new ArgumentException(nameof(propName));
 
+            object? current = src;
             foreach (string currentPropertyName in propName.Split('.'))
             {
                 if (string.IsNullOrWhiteSpace(currentPropertyName)) return default;
+                if (current == null) return default;
 
-                PropertyInfo propertyInfo = src.GetType().GetProperty(currentPropertyName);
+                PropertyInfo? propertyInfo = current.GetType().GetProperty(currentPropertyName);
                 if (propertyInfo == null) return default;
 
-                src = propertyInfo.GetValue(src);
+                current = propertyInfo.GetValue(current);
             }
 
-            return src is T result ? result : default;
+            return current is T result ? result : default;
         }
     }
 }

@@ -1,0 +1,49 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center py-4 py-md-5">
+    <span class="page-icon mx-auto mb-3" style="width:3.5rem;height:3.5rem;font-size:1.75rem;">
+        <i class="bi bi-gear-wide-connected"></i>
+    </span>
+    <h1 class="display-6 fw-bold mb-2">Openprocurement Agent</h1>
+    <p class="lead text-muted mb-4">Панель керування агентом моніторингу тендерів</p>
+    <div class="row justify-content-center g-3 mx-auto" style="max-width: 900px;">
+        <div class="col-md-4">
+            <a asp-page="./ProcuringEntity" class="text-decoration-none">
+                <div class="card hover-card h-100 text-center">
+                    <div class="card-body py-4">
+                        <span class="page-icon mx-auto mb-2"><i class="bi bi-building"></i></span>
+                        <h5 class="card-title mt-2 mb-1">Procuring Entity</h5>
+                        <p class="card-text text-muted small mb-0">Керування записами організацій</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a asp-page="./TenderHistory" class="text-decoration-none">
+                <div class="card hover-card h-100 text-center">
+                    <div class="card-body py-4">
+                        <span class="page-icon mx-auto mb-2"><i class="bi bi-clock-history"></i></span>
+                        <h5 class="card-title mt-2 mb-1">Tender History</h5>
+                        <p class="card-text text-muted small mb-0">Перегляд історії тендерів</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a asp-page="./Settings" class="text-decoration-none">
+                <div class="card hover-card h-100 text-center">
+                    <div class="card-body py-4">
+                        <span class="page-icon mx-auto mb-2"><i class="bi bi-gear"></i></span>
+                        <h5 class="card-title mt-2 mb-1">Settings</h5>
+                        <p class="card-text text-muted small mb-0">Налаштування основних параметрів</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+

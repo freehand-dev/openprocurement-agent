@@ -1,0 +1,225 @@
+@page
+@model SettingsModel
+@{
+    ViewData["Title"] = "Налаштування";
+}
+
+<div class="page-header">
+    <span class="page-icon"><i class="bi bi-gear"></i></span>
+    <h1>Налаштування</h1>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<form method="post" id="settingsForm">
+    @* ── Global ── *@
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5 class="card-title mb-0"><i class="bi bi-sliders"></i> Загальні</h5>
+        </div>
+        <div class="card-body">
+            <label class="form-label">Зсув старту від поточного часу (годин)</label>
+            <input asp-for="Pipeline.Subtract" class="form-control form-control-sm" type="number"
+                   style="max-width: 150px;" />
+            <small class="text-muted">Скільки годин назад від зараз брати тендери при старті.</small>
+        </div>
+    </div>
+
+    @* ── Transform:Status ── *@
+    <div class="card mb-3">
+        <div class="card-header">
+            <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" asp-for="Pipeline.TransformStatusEnabled" />
+                <label class="form-check-label fw-semibold" asp-for="Pipeline.TransformStatusEnabled">
+                    <i class="bi bi-funnel"></i> Фільтр: дозволені статуси тендера
+                </label>
+            </div>
+        </div>
+        <div class="card-body">
+            <label class="form-label small text-muted">Оберіть статуси зі списку</label>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-1 mb-2" id="statusChecklist">
+                @foreach (var status in SettingsModel.KnownTenderStatuses)
+                {
+                    <div class="col">
+                        <div class="form-check">
+                            <input class="form-check-input status-checkbox" type="checkbox" name="SelectedStatuses"
+                                   value="@status.Value" id="status_@status.Value.Replace('.', '_')"
+                                   checked="@(Model.SelectedStatuses.Contains(status.Value) ? "checked" : null)" />
+                            <label class="form-check-label small" for="status_@status.Value.Replace('.', '_')"
+                                   title="@status.Description">
+                                <code class="small">@status.Value</code> — @status.Description
+                            </label>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    @* ── Transform:Classification ── *@
+    <div class="card mb-3">
+        <div class="card-header">
+            <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" asp-for="Pipeline.TransformClassificationEnabled" />
+                <label class="form-check-label fw-semibold" asp-for="Pipeline.TransformClassificationEnabled">
+                    <i class="bi bi-funnel"></i> Фільтр: класифікація (CPV)
+                </label>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row g-2">
+                <div class="col-md-6">
+                    <label class="form-label small text-muted">Пропустити коди (по одному на рядок)</label>
+                    <textarea asp-for="Pipeline.TransformClassificationBypass" class="form-control form-control-sm"
+                              rows="4" placeholder="45000000-7&#10;48440000-4"></textarea>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label small text-muted">Заблоковані коди (по одному на рядок)</label>
+                    <textarea asp-for="Pipeline.TransformClassificationBlock" class="form-control form-control-sm"
+                              rows="4" placeholder="37810000-9&#10;35810000-5"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* ── Transform:Identifier ── *@
+    <div class="card mb-3">
+        <div class="card-header">
+            <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" asp-for="Pipeline.TransformIdentifierEnabled" />
+                <label class="form-check-label fw-semibold" asp-for="Pipeline.TransformIdentifierEnabled">
+                    <i class="bi bi-funnel"></i> Фільтр: тільки організації зі списку Procuring Entity
+                </label>
+            </div>
+        </div>
+    </div>
+
+    @* ── Transform:TendersHistory ── *@
+    <div class="card mb-3">
+        <div class="card-header">
+            <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" asp-for="Pipeline.TransformTendersHistoryEnabled" />
+                <label class="form-check-label fw-semibold" asp-for="Pipeline.TransformTendersHistoryEnabled">
+                    <i class="bi bi-funnel"></i> Фільтр: пропускати тендери, яких немає в історії
+                </label>
+            </div>
+        </div>
+    </div>
+
+    @* ── Action:TendersHistory ── *@
+    <div class="card mb-3">
+        <div class="card-header">
+            <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" asp-for="Pipeline.ActionTendersHistoryEnabled" />
+                <label class="form-check-label fw-semibold" asp-for="Pipeline.ActionTendersHistoryEnabled">
+                    <i class="bi bi-lightning-charge"></i> Дія: зберігати історію тендерів
+                </label>
+            </div>
+        </div>
+    </div>
+
+    @* ── Action:SendMail ── *@
+    <div class="card mb-3">
+        <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" asp-for="Settings.Enabled" />
+                <label class="form-check-label fw-semibold" asp-for="Settings.Enabled">
+                    <i class="bi bi-lightning-charge"></i> Дія: відправка пошти
+                </label>
+            </div>
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="resetTemplate()"
+                    title="Скинути шаблон до значення за замовчуванням">
+                <i class="bi bi-arrow-counterclockwise"></i> Скинути шаблон
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="row mb-2 g-2">
+                <div class="col-md-6">
+                    <label class="form-label">Відправник</label>
+                    <input asp-for="Settings.From" class="form-control form-control-sm"
+                           placeholder="Tenders Agent <sender@corp-mail.com>" />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Тема листа</label>
+                    <input asp-for="Settings.Subject" class="form-control form-control-sm"
+                           placeholder="%Value.String% - %Title% - (%ProcuringEntity.Name%)" />
+                </div>
+            </div>
+
+            <div class="row mb-2 g-2">
+                <div class="col-md-6">
+                    <label class="form-label">Сервер SMTP</label>
+                    <input asp-for="Settings.Server" class="form-control form-control-sm"
+                           placeholder="smtp.server.com" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Порт</label>
+                    <input asp-for="Settings.Port" class="form-control form-control-sm" type="number" />
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" asp-for="Settings.EnableSsl" />
+                        <label class="form-check-label" asp-for="Settings.EnableSsl">SSL</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-2 g-2">
+                <div class="col-md-6">
+                    <label class="form-label">Користувач (SMTP)</label>
+                    <input asp-for="Settings.Username" class="form-control form-control-sm" />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Пароль</label>
+                    <input asp-for="Settings.Password" class="form-control form-control-sm" type="password"
+                           autocomplete="new-password" placeholder="Залиште порожнім, щоб не змінювати" />
+                </div>
+            </div>
+
+            <div class="mb-2">
+                <label class="form-label">Одержувачі <span class="text-muted small">(по одному на рядок)</span></label>
+                <textarea asp-for="Settings.MailTo" class="form-control form-control-sm" rows="3"
+                          placeholder="user@corp-mail.com&#10;user1@corp-mail.com"></textarea>
+            </div>
+
+            <div class="mb-2">
+                <label class="form-label">Шаблон листа (HTML)</label>
+                <textarea asp-for="Settings.MessageTemplate" class="form-control font-monospace" rows="12"
+                          style="font-size: 12px;"></textarea>
+                <small class="text-muted">Використовуйте <code>%body%</code> для вставки вмісту листа.</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex gap-2">
+        <button type="submit" asp-page-handler="Save" class="btn btn-primary">
+            <i class="bi bi-save"></i> Зберегти
+        </button>
+    </div>
+</form>
+
+<form method="post" asp-page-handler="ResetTemplate" id="resetTemplateForm" class="d-none"></form>
+
+@section Scripts {
+    <script>
+        function resetTemplate() {
+            if (confirm('Скинути шаблон листа до значення за замовчуванням?')) {
+                document.getElementById('resetTemplateForm').submit();
+            }
+        }
+    </script>
+}
+

@@ -1,99 +1,126 @@
 using Microsoft.EntityFrameworkCore;
 using openprocurement.api.client;
+using openprocurement_agent.Extensions;
+using openprocurement_agent.Models;
+using openprocurement_agent.Services;
+using System.Reflection;
+using System.Security.Authentication;
 
-namespace openprocurement_agent
+var builder = WebApplication.CreateBuilder(args);
+
+#region ConfigureAppConfiguration
+var appName = builder.Environment.ApplicationName;
+var env = builder.Environment.EnvironmentName;
+Console.WriteLine($"Loading configuration for application {appName} in environment {env}...");
+builder.Configuration.AddJsonFile($"{appName}.json", optional: true, reloadOnChange: true);
+builder.Configuration.AddJsonFile($"{appName}.{env}.json", optional: true, reloadOnChange: true);
+builder.Configuration.AddYamlFile($"{appName}.yaml", optional: true, reloadOnChange: true);
+builder.Configuration.AddYamlFile($"{appName}.{env}.yaml", optional: true, reloadOnChange: true);
+builder.Configuration.AddIniFile($"{appName}.conf", optional: true, reloadOnChange: true);
+builder.Configuration.AddIniFile($"{appName}.{env}.conf", optional: true, reloadOnChange: true);
+builder.Configuration.AddCommandLine(args);
+builder.Configuration.AddEnvironmentVariables();
+#endregion
+
+#region ConfigureLogging
+builder.Logging.AddConfiguration((IConfiguration)builder.Configuration.GetSection("Logging"));
+builder.Logging.AddConsole();
+#endregion
+
+// Log application startup info after logging is configured
+var loggerFactory = LoggerFactory.Create(loggingBuilder =>
 {
-    public class Program
-    {
+    loggingBuilder.AddConfiguration(builder.Configuration.GetSection("Logging"));
+    loggingBuilder.AddConsole();
+});
+var startupLogger = loggerFactory.CreateLogger<Program>();
+startupLogger.LogInformation("starting application with environment {Environment}", builder.Environment.EnvironmentName);
+startupLogger.LogDebug("content root path: {ContentRoot}", builder.Environment.ContentRootPath);
 
-        public static void Main(string[] args)
+#region ConfigureWebHostDefaults
+var webBuilder = builder.WebHost;
+webBuilder.UseKestrel((context, serverOptions) =>
+{
+    serverOptions.Configure((IConfiguration)context.Configuration.GetSection("Kestrel"))
+        .Endpoint("HTTPS", listenOptions =>
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-            CreateHostBuilder(args).Build().Run();
-        }
+            listenOptions.HttpsOptions.SslProtocols = SslProtocols.Tls12;
+        });
+});
+#endregion
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .UseWindowsService()
-                .UseSystemd()
-                .ConfigureAppConfiguration((builderContext, config) =>
-                {
-                    config.Sources.Clear();
-                    IHostEnvironment env = builderContext.HostingEnvironment;
+// Configuration
+builder.Services.Configure<AppSettings>(builder.Configuration);
 
-                    #region WorkingDirectory
-                    var workingDirectory = env.ContentRootPath;
-                    if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-                    {
-                        workingDirectory = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "FreeHand", env.ApplicationName);
-                    }
-                    else if (Environment.OSVersion.Platform == PlatformID.Unix)
-                    {
-                        workingDirectory = System.IO.Path.Combine($"/opt/", env.ApplicationName, "etc", env.ApplicationName);
-                    }
-                    if (!System.IO.Directory.Exists(workingDirectory))
-                        System.IO.Directory.CreateDirectory(workingDirectory);
+// Add services to the container.
+builder.Services.ConfigureEntityFramework(builder.Configuration);
+builder.Services.ConfigureDataProtection(builder.Configuration, startupLogger);
+builder.Services.AddCors();
+builder.Services.ConfigureCookie();
 
-                    config.SetBasePath(workingDirectory);
+//
+// Add HttpClient services
+builder.Services.AddHttpClient();
 
-                    // add workingDirectory service configuration
-                    config.AddInMemoryCollection(new Dictionary<string, string>
-                    {
-                       {"WorkingDirectory", workingDirectory}
-                    });
-                    #endregion
+// Register OpenprocurementClient API client service
+builder.Services.AddHttpClient<IOpenprocurementClient, OpenprocurementClient>();
 
-                    //
-                    Console.WriteLine($"$Env:EnvironmentName={env.EnvironmentName}");
-                    Console.WriteLine($"$Env:ApplicationName={env.ApplicationName}");
-                    Console.WriteLine($"$Env:ContentRootPath={env.ContentRootPath}");
-                    Console.WriteLine($"WorkingDirectory={workingDirectory}");
+//OpenProcurement Service
+builder.Services.AddHostedService<OpenprocurementService>();
 
-                    config.AddIniFile($"{env.ApplicationName}.conf", optional: true, reloadOnChange: true);
-                    config.AddCommandLine(args);
-                    config.AddEnvironmentVariables();
+// Add services to the container.
+builder.Services.AddRazorPages();
 
-                })
-                .ConfigureServices((hostContext, services) =>
-                {
-                    //get WorkingDirectory from config
-                    string workingDirectory = hostContext.Configuration.GetValue<string>("WorkingDirectory");
+var app = builder.Build();
 
-                    //
-                    var settings = hostContext.Configuration.Get<Models.AppSettings>();
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
 
-                    // Add DatabaseContex.
-                    if (settings.Transform.Identifier.Enabled)
-                    {
-                        services.AddDbContext<Models.TenderHistoryDbContex>(options =>
-                                options.UseSqlite($"Data Source=\"{System.IO.Path.Combine(workingDirectory, "TenderHistory.db")}\""));
-                    }
+app.UseHttpsRedirection();
 
-                    // Add DatabaseContex.
-                    if (settings.Transform.TendersHistory.Enabled || settings.Action.TendersHistory.Enabled)
-                    {
-                        services.AddDbContext<Models.ProcuringEntityDbContex>(options =>
-                                options.UseSqlite($"Data Source=\"{System.IO.Path.Combine(workingDirectory, "ProcuringEntity.db")}\""));
-                    }
-                    // Configuration
-                    services.Configure<Models.AppSettings>(hostContext.Configuration);
+app.UseStaticFiles();
 
-                    //
-                    // Add HttpClient services
-                    services.AddHttpClient();
+app.UseRouting();
 
-                    // Register OpenprocurementClient API client service
-                    services.AddHttpClient<IOpenprocurementClient, OpenprocurementClient>();
+app.UseAuthorization();
 
+app.MapStaticAssets();
+app.MapRazorPages()
+   .WithStaticAssets();
 
-                    //OpenProcurement Service
-                    services.AddHostedService<Services.OpenprocurementService>();
+app.Run();
 
-                })
-                .ConfigureLogging((builderContext, logging) =>
-                {
-                    logging.AddConfiguration((IConfiguration)builderContext.Configuration.GetSection("Logging"));
-                    logging.AddConsole();
-                });
+partial class Program
+{
+    public static string InstanceName = "Default";
+    public static readonly string ServiceName = "openprocurement-agent";
+
+    /// <summary>
+    /// Gets current version of the application.
+    /// It's also shown in the web page.
+    /// </summary>
+    public const string Version = "1.0.0.0";
+
+    /// <summary>
+    /// Gets release (last build) date of the application.
+    /// It's shown in the web page.
+    /// </summary>
+    public static DateTime ReleaseDate => LzyReleaseDate.Value;
+
+    private static readonly Lazy<DateTime> LzyReleaseDate = new Lazy<DateTime>(() => new FileInfo(typeof(Program).Assembly.Location).LastWriteTime);
+
+    public static void PrintProductVersion()
+    {
+        var assembly = typeof(Program).Assembly;
+        var product = assembly.GetCustomAttribute<AssemblyProductAttribute>()?.Product;
+        var version = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine($"Starting {product} v{version}...");
+        Console.ResetColor();
     }
 }

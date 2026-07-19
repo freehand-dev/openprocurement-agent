@@ -1,4 +1,6 @@
-﻿using openprocurement_agent.Services;
+﻿using openprocurement_agent.Models;
+using openprocurement_agent.Services;
+using System.Linq;
 using System.Threading.Tasks.Dataflow;
 
 namespace openprocurement_agent.MessagePipeline
@@ -6,19 +8,25 @@ namespace openprocurement_agent.MessagePipeline
     public class TenderHistoryFilter
     {
         static public TransformBlock<MessageTender, MessageTender> Create(
-            Models.TransformSettings_TendersHistory settings,
-            Models.TenderHistoryDbContex databaseContex,
+            Models.PipelineSettingsDbContext pipelineSettingsDbContext,
+            Models.TenderHistoryDbContext? databaseContext,
             Object dbLock,
             ILogger<OpenprocurementService> logger)
         {
             return new TransformBlock<MessageTender, MessageTender>(message =>
             {
-                if (!settings.Enabled)
-                    return message;
-
                 try
                 {
-                    bool isMatch = databaseContex.TenderHistory.Any(b => b.TenderId == message.Item.TenderID);
+                    TendersHistoryTransformSettings? settings;
+                    bool isMatch;
+                    lock (dbLock)
+                    {
+                        settings = pipelineSettingsDbContext.TendersHistoryTransformSettings.Find(1);
+                        if (settings == null || !settings.Enabled || databaseContext == null)
+                            return message;
+
+                        isMatch = databaseContext.TenderHistory.Any(b => b.TenderId == message.Item!.TenderID);
+                    }
                     message.Status = isMatch ? MessageTenderStatus.NullTarget : MessageTenderStatus.NextTarget;
                 }
                 catch (Exception e)

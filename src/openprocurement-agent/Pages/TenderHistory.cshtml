@@ -1,0 +1,122 @@
+@page
+@model TenderHistoryModel
+@{
+    ViewData["Title"] = "Tender History";
+}
+
+<div class="page-header">
+    <span class="page-icon"><i class="bi bi-clock-history"></i></span>
+    <h1>Tender History</h1>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h5 class="card-title mb-0">Історія тендерів (@Model.TotalCount)</h5>
+        <form method="get" class="d-flex gap-1">
+            <input type="text" name="SearchTenderId" value="@Model.SearchTenderId" class="form-control form-control-sm"
+                   placeholder="Пошук за ID..." style="width: 200px;" />
+            <button type="submit" class="btn btn-outline-primary btn-sm">Шукати</button>
+            @if (!string.IsNullOrEmpty(Model.SearchTenderId))
+            {
+                <a asp-page="./TenderHistory" class="btn btn-outline-secondary btn-sm">Скинути</a>
+            }
+        </form>
+    </div>
+    <div class="card-body p-0">
+        @if (Model.Items.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 50px;">#</th>
+                            <th>Tender ID</th>
+                            <th style="width: 180px;">Дата створення</th>
+                            <th class="text-end" style="width: 80px;">Дії</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Items.Count; i++)
+                        {
+                            var item = Model.Items[i];
+                            <tr>
+                                <td class="text-muted">@((Model.CurrentPage - 1) * Model.PageSize + i + 1)</td>
+                                <td><code data-bs-toggle="tooltip" title="@item.Title">@item.TenderId</code></td>
+                                <td class="text-muted small">@item.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                <td class="text-end">
+                                    <form method="post" asp-page-handler="Delete" class="d-inline"
+                                          onsubmit="return confirm('Видалити запис @item.TenderId?');">
+                                        <input type="hidden" name="tenderId" value="@item.TenderId" />
+                                        <button type="submit" class="btn btn-outline-danger btn-sm" title="Видалити"><i
+                                            class="bi bi-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        else
+            {
+                <div class="text-center text-muted py-4">
+                    <p class="mb-0">Записів не знайдено.</p>
+                </div>
+            }
+        </div>
+        @* Pagination *@
+        @if (Model.TotalPages > 1)
+        {
+            <div class="card-footer">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted small">Сторінка @Model.CurrentPage з @Model.TotalPages</span>
+                    <nav>
+                        <ul class="pagination pagination-sm mb-0">
+                            <li class="page-item @(Model.CurrentPage <= 1 ? "disabled" : "")">
+                                <a class="page-link" asp-page="./TenderHistory" asp-route-SearchTenderId="@Model.SearchTenderId"
+                                   asp-route-PageNumber="@(Model.CurrentPage - 1)">&laquo;</a>
+                            </li>
+                            @{
+                                int start = Math.Max(1, Model.CurrentPage - 2);
+                                int end = Math.Min(Model.TotalPages, Model.CurrentPage + 2);
+                            }
+                            @for (int i = start; i <= end; i++)
+                            {
+                                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                                    <a class="page-link" asp-page="./TenderHistory" asp-route-SearchTenderId="@Model.SearchTenderId"
+                                       asp-route-PageNumber="@i">@i</a>
+                                </li>
+                            }
+                            <li class="page-item @(Model.CurrentPage >= Model.TotalPages ? "disabled" : "")">
+                                <a class="page-link" asp-page="./TenderHistory" asp-route-SearchTenderId="@Model.SearchTenderId"
+                                   asp-route-PageNumber="@(Model.CurrentPage + 1)">&raquo;</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        }
+    </div>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) {
+            new bootstrap.Tooltip(el);
+        });
+    </script>
+}
