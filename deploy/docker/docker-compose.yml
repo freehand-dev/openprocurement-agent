@@ -1,0 +1,41 @@
+services:
+  openprocurement-agent:
+    image: openprocurement-agent:latest
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-5050}:5050"
+    stop_grace_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Production}
+      Kestrel__Endpoints__Http__Url: http://+:5050
+      ConnectionStrings__SettingsConnection: ${SETTINGS_CONNECTION:-Data Source=/app/data/Settings.db}
+      ConnectionStrings__ProcuringEntityConnection: ${PROCURING_ENTITY_CONNECTION:-Data Source=/app/data/ProcuringEntity.db}
+      ConnectionStrings__TenderHistoryConnection: ${TENDER_HISTORY_CONNECTION:-Data Source=/app/data/TenderHistory.db}
+      DataProtection__KeyPath: ${DATA_PROTECTION_KEY_PATH:-/app/data/keys}
+      TZ: ${TZ:-Europe/Kyiv}
+    volumes:
+      - openprocurement-agent_data:/app/data
+    networks:
+      - openprocurement-agent_network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:5050/health" ]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  openprocurement-agent_data:
+    driver: local
+
+networks:
+  openprocurement-agent_network:
+    driver: bridge

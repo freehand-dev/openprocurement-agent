@@ -71,6 +71,12 @@ builder.Services.AddHostedService<OpenprocurementService>();
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+// Health checks
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<TenderHistoryDbContext>()
+    .AddDbContextCheck<ProcuringEntityDbContext>()
+    .AddDbContextCheck<PipelineSettingsDbContext>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -92,6 +98,7 @@ app.UseAuthorization();
 app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
+app.MapHealthChecks("/health");
 
 app.Run();
 
