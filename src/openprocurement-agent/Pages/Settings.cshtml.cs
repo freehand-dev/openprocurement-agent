@@ -158,19 +158,22 @@ namespace openprocurement_agent.Pages
                 identifier.Enabled = Pipeline.TransformIdentifierEnabled;
 
             // Transform:Classification
+            // Empty textareas are posted as "", but ASP.NET Core's default model binding
+            // (ConvertEmptyStringToNull) turns that into null before it reaches this handler,
+            // which would violate the NOT NULL constraint on Bypass/Block — so coalesce back to "".
             var classification = await _pipelineDb.ClassificationTransformSettings.FindAsync(1);
             if (classification == null)
                 _pipelineDb.ClassificationTransformSettings.Add(new ClassificationTransformSettings
                 {
                     Enabled = Pipeline.TransformClassificationEnabled,
-                    Bypass = Pipeline.TransformClassificationBypass,
-                    Block = Pipeline.TransformClassificationBlock
+                    Bypass = Pipeline.TransformClassificationBypass ?? "",
+                    Block = Pipeline.TransformClassificationBlock ?? ""
                 });
             else
             {
                 classification.Enabled = Pipeline.TransformClassificationEnabled;
-                classification.Bypass = Pipeline.TransformClassificationBypass;
-                classification.Block = Pipeline.TransformClassificationBlock;
+                classification.Bypass = Pipeline.TransformClassificationBypass ?? "";
+                classification.Block = Pipeline.TransformClassificationBlock ?? "";
             }
 
             await _pipelineDb.SaveChangesAsync();

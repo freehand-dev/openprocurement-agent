@@ -109,9 +109,9 @@ namespace openprocurement_agent.Models
             {
                 ClassificationTransformSettings.Add(new ClassificationTransformSettings
                 {
-                    Enabled = true,
-                    Bypass = "45000000-7\n48440000-4",
-                    Block = "37810000-9\n35810000-5"
+                    Enabled = false,
+                    Bypass = "",
+                    Block = ""
                 });
             }
 
