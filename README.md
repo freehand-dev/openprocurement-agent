@@ -18,6 +18,9 @@ Download and launch the `openprocurement-agent:latest` image with the following 
 ```bash
 docker volume create openprocurement-agent_data
 docker run --detach --restart=always --name openprocurement-agent \
+  -e Logging__LogLevel__Default=Information \
+  -e Logging__LogLevel__Microsoft=Warning \
+  -e Logging__LogLevel__System.Net.Http.HttpClient=Warning \
   -e ASPNETCORE_ENVIRONMENT=Production \
   -e Kestrel__Endpoints__Http__Url=http://+:5050 \
   -e ConnectionStrings__SettingsConnection="Data Source=/app/data/Settings.db" \

@@ -14,6 +14,9 @@ services:
         max-size: "10m"
         max-file: "5"
     environment:
+      Logging__LogLevel__Default: Information
+      Logging__LogLevel__Microsoft: Warning
+      Logging__LogLevel__System.Net.Http.HttpClient: Warning
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Production}
       Kestrel__Endpoints__Http__Url: http://+:5050
       ConnectionStrings__SettingsConnection: ${SETTINGS_CONNECTION:-Data Source=/app/data/Settings.db}
