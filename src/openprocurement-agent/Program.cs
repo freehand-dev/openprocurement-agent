@@ -49,9 +49,6 @@ webBuilder.UseKestrel((context, serverOptions) =>
 });
 #endregion
 
-// Configuration
-builder.Services.Configure<AppSettings>(builder.Configuration);
-
 // Add services to the container.
 builder.Services.ConfigureEntityFramework(builder.Configuration);
 builder.Services.ConfigureDataProtection(builder.Configuration, startupLogger);

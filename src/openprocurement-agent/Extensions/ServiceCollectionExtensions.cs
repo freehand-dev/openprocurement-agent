@@ -9,8 +9,6 @@ namespace openprocurement_agent.Extensions
     {
         public static void ConfigureEntityFramework(this IServiceCollection services, IConfiguration configuration)
         {
-            var settings = configuration.Get<Models.AppSettings>();
-
             // Add TenderHistoryDbContext.
             var tenderHistoryConnectionStringBuilder = new SqliteConnectionStringBuilder(configuration.GetConnectionString("TenderHistoryConnection"));
             services.AddDbContext<Models.TenderHistoryDbContext>(options =>
